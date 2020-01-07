@@ -1,0 +1,6 @@
+<echo
+  xmlns:shared="https://ns.carbonfrost.com/commons/core">
+  <v>
+    <add name="a" value="b" />
+  </v>
+</echo>

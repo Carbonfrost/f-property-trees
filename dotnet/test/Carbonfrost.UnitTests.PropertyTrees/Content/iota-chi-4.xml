@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<iotaChi>
+    <add>
+        <template>
+            <alpha
+                i  = "1024"
+                j  = "102410241024"
+                k  = "-120"
+                l  = "NaN"
+            />
+        </template>
+        <a provider="properties" />
+    </add>
+</iotaChi>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<piChi>
+    <preconditions>
+        <environment variable="PROCESSOR_LEVEL" pattern="l" />
+        <environment variable="QR" pattern="m" />
+        <platform />
+    </preconditions>
+
+    <controls>
+        <p>
+            <textbox></textbox>
+        </p>
+    </controls>
+</piChi>

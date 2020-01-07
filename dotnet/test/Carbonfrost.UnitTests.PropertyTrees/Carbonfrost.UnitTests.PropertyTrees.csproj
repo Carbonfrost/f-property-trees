@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../Build.props" />
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="../../lib/Typedescriptor.Metadata.dll" />
+    <Reference Include="../../lib/Carbonfrost.Commons.SharedRuntime.dll" />
+    <Reference Include="../../lib/Carbonfrost.Commons.Spec.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Carbonfrost.Commons.PropertyTrees\Carbonfrost.Commons.PropertyTrees.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Carbonfrost.Commons.Core" Version="0.2.1" />
+    <PackageReference Include="Carbonfrost.Commons.Core.Runtime.Expressions" Version="0.1.0" />
+  </ItemGroup>
+</Project>

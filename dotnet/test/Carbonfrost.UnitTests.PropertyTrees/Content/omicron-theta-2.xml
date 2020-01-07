@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<omicronTheta xmlns="https://ns.example.com/">
+    <alpha
+        id = "alpha"
+        d  = "g"
+        e  = "3/30/2011 1:50 AM" />
+
+    <beta a-source = "#alpha" />
+    <delta name = "my" />
+
+</omicronTheta>

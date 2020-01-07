@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<omicron>
+
+    <!-- Testing instantiation without child nodes -->
+    <gammaNoargs />
+
+</omicron>

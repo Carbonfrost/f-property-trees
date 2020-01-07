@@ -1,0 +1,10 @@
+<beta xmlns:p="http://ns.carbonfrost.com/commons/propertytrees"
+      xmlns="https://ns.example.com/"
+      source="not a streaming source">
+      <e>
+        <source source="also not a streaming source" />
+      </e>
+      <k>
+        <source source="addon streaming" />
+      </k>
+</beta>

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<omicron>
+    <beta c="${team.url}" />
+</omicron>

@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, srgen, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, srgen, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </resheader>
+  <data name="BadAddChild" xml:space="preserve">
+    <value>Cannot append child to instance of type {0}.</value>
+  </data>
+  <data name="BadSourceDirective" xml:space="preserve">
+    <value>Invalid `source' directive: an invalid or unrecognized URI format.</value>
+  </data>
+  <data name="BadTargetProviderDirective" xml:space="preserve">
+    <value>Invalid `provider' directive: unknown or unresolved provider.</value>
+  </data>
+  <data name="BadTargetTypeDirective" xml:space="preserve">
+    <value>Invalid `type' directive: unknown or unresolved type.</value>
+  </data>
+  <data name="BadTargetTypeDirectiveUnresolvable" xml:space="preserve">
+    <value>Invalid `type' directive: couldn't resolve specified type or its dependencies.</value>
+  </data>
+  <data name="BinderConversionError" xml:space="preserve">
+    <value>Cannot parse text for the property `{0}' ({1}).</value>
+  </data>
+  <data name="BinderMissingProperty" xml:space="preserve">
+    <value>Member name `{0}' could not be found for the type `{1}'.</value>
+  </data>
+  <data name="BinderMissingPropertyNoType" xml:space="preserve">
+    <value>Member name `{0}' could not be found.</value>
+  </data>
+  <data name="CannotAppendChild" xml:space="preserve">
+    <value>Cannot append child nodes to this instance.</value>
+  </data>
+  <data name="CannotDeleteRoot" xml:space="preserve">
+    <value>Cannot delete the property tree root.</value>
+  </data>
+  <data name="ConstructorRequired" xml:space="preserve">
+    <value>A public instance constructor is required for the type: {0}.</value>
+  </data>
+  <data name="ConversionGenericMessage" xml:space="preserve">
+    <value>"An error occurred when converting the property value"</value>
+  </data>
+  <data name="CouldNotBindGenericParameters" xml:space="preserve">
+    <value>Could not determine the generic parameters for type {0}.</value>
+  </data>
+  <data name="CouldNotBindStreamingSource" xml:space="preserve">
+    <value>Could not initialize an instance of type {0} from a stream.</value>
+  </data>
+  <data name="DuplicateProperty" xml:space="preserve">
+    <value>A node with the specified name already exists: `{0}'.</value>
+  </data>
+  <data name="DuplicatePropertyName" xml:space="preserve">
+    <value>One or more property names have duplicates: {0}</value>
+  </data>
+  <data name="ExpectedClosingBrace" xml:space="preserve">
+    <value>Expected ')' in function expression</value>
+  </data>
+  <data name="FailedToLoadFromSource" xml:space="preserve">
+    <value>Failed to load an instance from `{0}'.</value>
+  </data>
+  <data name="InvalidFactoryType" xml:space="preserve">
+    <value>The specified type cannot be used as a property tree factory type: `{0}'.</value>
+  </data>
+  <data name="LateBoundTypeMissing" xml:space="preserve">
+    <value>The property for the late bound type must be specified.</value>
+  </data>
+  <data name="LateBoundTypeNotFound" xml:space="preserve">
+    <value>Specified required late-bound type could not be found: {0}</value>
+  </data>
+  <data name="LateBoundTypeNotFoundError" xml:space="preserve">
+    <value>Could not load the late bound type or its dependencies.</value>
+  </data>
+  <data name="MergeNamedMustMatch" xml:space="preserve">
+    <value>Nodes must have same qualified names to be merged.</value>
+  </data>
+  <data name="NoAddMethodSupported" xml:space="preserve">
+    <value>Type `{0}' cannot be initialized like a collection because no best `Add' method exists.</value>
+  </data>
+  <data name="NotAcceptiblePropertyType" xml:space="preserve">
+    <value>The given property type is not one of the acceptible property types.</value>
+  </data>
+  <data name="NoTargetProviderMatches" xml:space="preserve">
+    <value>No provider of type `{0}' matches the specified criteria.</value>
+  </data>
+  <data name="NotFromThisClient" xml:space="preserve">
+    <value>The specified property tree is not connected to this client.</value>
+  </data>
+  <data name="ProblemAccessingProperty" xml:space="preserve">
+    <value>An error occurred when invoking property getter or indexer `{0}' (type: {1}).</value>
+  </data>
+  <data name="PropertyTreeMetaObjectComponentNull" xml:space="preserve">
+    <value>Component or component type or both must be specified.</value>
+  </data>
+  <data name="ReaderNotMoved" xml:space="preserve">
+    <value>Reader is currently positioned before the first node of the document.</value>
+  </data>
+  <data name="ReaderWrongPosition" xml:space="preserve">
+    <value>Expected reader to be positioned on a `{0}' node (actual position: `{1}').</value>
+  </data>
+  <data name="RequiredPropertiesMissing" xml:space="preserve">
+    <value>One or more required properties must be specified: {0} ({1})</value>
+  </data>
+  <data name="TemplateTypeConstructorMustBeNiladic" xml:space="preserve">
+    <value>The template type must have a public, default constructor: {0}</value>
+  </data>
+  <data name="UnableToMatchTypeNameAmbiguous" xml:space="preserve">
+    <value>The name {0} is ambiguous: {1}</value>
+  </data>
+  <data name="UnableToMatchTypeNameZero" xml:space="preserve">
+    <value>No type could be loaded that matches the name {0}.</value>
+  </data>
+  <data name="WouldCreateMalformedDocument" xml:space="preserve">
+    <value>Operation would lead to an invalid document.</value>
+  </data>
+  <data name="WouldCreateMalformedDocumentRootRequired" xml:space="preserve">
+    <value>Operation would lead to an malformed document.  A tree is required.</value>
+  </data>
+  <data name="WriterIncorrectState" xml:space="preserve">
+    <value>Operation is not valid for the current writer state, `{0}'.</value>
+  </data>
+  <data name="WriterOnlyPropertyTreesNamespace" xml:space="preserve">
+    <value>Tree must specify the property trees metadata namespace when used within a property.</value>
+  </data>
+  <data name="WriterPropertyOrTreeExists" xml:space="preserve">
+    <value>Specified property or tree name would create a malformed document because the given name has already been written: `{0}'.</value>
+  </data>
+  <data name="CannotConvertFromString" xml:space="preserve">
+    <value>Cannot convert from a string to the specified type `{0}'.</value>
+  </data>
+  <data name="CannotConvertToString" xml:space="preserve">
+    <value>Cannot convert from the specified instance to a string.</value>
+  </data>
+</root>

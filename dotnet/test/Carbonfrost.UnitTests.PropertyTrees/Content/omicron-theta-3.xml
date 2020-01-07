@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<omicronTheta xmlns="https://ns.example.com/">
+    <alpha
+        id = "alpha"
+        m  = "Some string" />
+
+    <beta d = "${alpha.m}" />
+
+</omicronTheta>

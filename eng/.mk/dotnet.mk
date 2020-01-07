@@ -11,7 +11,6 @@
 #    │   └── Project1
 #    │       ├── Automation  -- (Optional) String resources, text templates, etc.
 #    │       │   ├── SR.properties
-#    │       │   ├── TextTemplates
 #    │       │   └── TextTemplates
 #    │       ├── Project1.csproj
 #    │       └── (source files)
@@ -28,7 +27,17 @@
 CONFIGURATION?=Release
 
 # The location of the NuGet configuration file
-NUGET_FILE?=./nuget.config
+NUGET_CONFIG_FILE?=./nuget.config
+
+## Set up dotnet configuration for NuGet
+dotnet/configure: -check-env-NUGET_SOURCE_URL -check-env-NUGET_PASSWORD -check-env-NUGET_USER_NAME -check-env-NUGET_CONFIG_FILE
+	@ test -e $(NUGET_CONFIG_FILE) || echo "<configuration />" > $(NUGET_CONFIG_FILE)
+	@ nuget sources add -Name "Carbonfrost" \
+		-Source $(NUGET_SOURCE_URL) \
+		-Password $(NUGET_PASSWORD) \
+		-Username $(NUGET_USER_NAME) \
+		-StorePasswordInClearText \
+		-ConfigFile $(NUGET_CONFIG_FILE)
 
 ## Restore package dependencies
 dotnet/restore:
@@ -67,4 +76,3 @@ dotnet/clean:
 	@ for f in dotnet/src/*/bin/Release/*.nupkg; do \
 		curl -X PUT -u "$(NUGET_USER_NAME):$(NUGET_PASSWORD)" -F package=@$$f $(NUGET_UPLOAD_URL); \
 	done
-

@@ -1,6 +1,4 @@
 //
-// - Xmlns.cs -
-//
 // Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +14,14 @@
 // limitations under the License.
 //
 
-using System;
 using Carbonfrost.Commons.Core;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
     static class Xmlns {
 
-        public const string PropertyTrees2010 = "http://ns.carbonfrost.com/commons/propertytrees";
+        public const string PropertyTrees2010 = "https://ns.carbonfrost.com/commons/propertytrees";
         public static readonly NamespaceUri PropertyTrees2010Uri = NamespaceUri.Create(PropertyTrees2010);
-        public const string PropertyTreesSchema2010 = "http://ns.carbonfrost.com/commons/propertytrees/schema";
+        public const string PropertyTreesSchema2010 = "https://ns.carbonfrost.com/commons/propertytrees/schema";
     }
 }

@@ -1,6 +1,4 @@
 //
-// - IgnoreAttribute.cs -
-//
 // Copyright 2013 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +18,7 @@ using System;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
-	[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-	public sealed class IgnoreAttribute : Attribute {
-
-	}
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
+    public sealed class IgnoreAttribute : Attribute {
+    }
 }

@@ -1,6 +1,4 @@
 //
-// - Utility.cs -
-//
 // Copyright 2010, 2015 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,10 +60,6 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         private static Expression ParseExprHelper(string expText) {
-            if (expText.IndexOf("::", StringComparison.Ordinal) >= 0) {
-                throw new NotImplementedException();
-            }
-
             return Expression.Parse(expText);
         }
 

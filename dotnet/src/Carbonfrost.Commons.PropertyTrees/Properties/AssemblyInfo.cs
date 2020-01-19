@@ -25,6 +25,7 @@ using Carbonfrost.Commons.PropertyTrees;
 [assembly: Xmlns(Xmlns.PropertyTrees2010, ClrNamespace = "Carbonfrost.Commons.PropertyTrees")]
 
 [assembly: Defines(AdapterRole.ValueSerializer)]
+[assembly: Provides(typeof(IValueSerializer))]
 
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]

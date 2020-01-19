@@ -1,6 +1,4 @@
 //
-// - IPropertyTreeNavigator.cs -
-//
 // Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +15,7 @@
 //
 
 using System;
-using Carbonfrost.Commons.Core.Runtime.Expressions;
+
 using Carbonfrost.Commons.PropertyTrees.Schema;
 using Carbonfrost.Commons.Core;
 
@@ -56,8 +54,5 @@ namespace Carbonfrost.Commons.PropertyTrees {
         object Bind(Type componentType, PropertyTreeBinderOptions options);
         T Bind<T>(PropertyTreeBinderOptions options);
         T Bind<T>(T component, PropertyTreeBinderOptions options);
-
     }
-
-
 }

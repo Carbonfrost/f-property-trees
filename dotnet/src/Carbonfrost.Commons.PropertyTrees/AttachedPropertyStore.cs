@@ -37,14 +37,14 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public static IAttachedPropertyStore FromValue(object instance) {
-            if (instance == null)
+            if (instance == null) {
                 throw new ArgumentNullException("instance");
-
+            }
             var result = instance.TryAdapt<IAttachedPropertyStore>();
             if (result == null) {
                 return GetOrCreateDefault(instance);
-            } else
-                return null;
+            }
+            return result;
         }
 
         static IAttachedPropertyStore GetOrCreateDefault(object instance) {

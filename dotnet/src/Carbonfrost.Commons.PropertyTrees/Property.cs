@@ -55,23 +55,25 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         protected virtual void OnValueChanged(EventArgs e) {
-            if (ValueChanged != null)
+            if (ValueChanged != null) {
                 ValueChanged(this, e);
+            }
         }
 
-        // `PropertyNode' overrides.
-
         public override PropertyNodeCollection Children {
-            get { return EmptyPropertyNodeCollection.Instance; } }
+            get {
+                return EmptyPropertyNodeCollection.Instance;
+            }
+        }
 
         // UNDONE Other attributes
 
         protected override object SelectAttributeCore(string attribute) {
             switch (attribute) {
                 case "value":
-                    return this.Value;
+                    return Value;
                 case "position":
-                    return (this.Parent == null) ? -1 : this.Parent.IndexOfChild(this);
+                    return (Parent == null) ? -1 : Parent.IndexOfChild(this);
                 default:
                     return null;
             }

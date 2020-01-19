@@ -1,7 +1,5 @@
 //
-// - EmptyPropertyNodeCollection.cs -
-//
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,11 +14,7 @@
 // limitations under the License.
 //
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-
-using Carbonfrost.Commons.Core;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
@@ -28,20 +22,9 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         internal static readonly PropertyNodeCollection Instance = new EmptyPropertyNodeCollection();
 
-        // PropertyNodeCollection overrides
-
         public override int Count { get { return 0; } }
         public override IEnumerator<PropertyNode> GetEnumerator() {
-            return new EnumeratorImpl();
-        }
-
-        // Nested types
-        struct EnumeratorImpl : IEnumerator<PropertyNode> {
-            public PropertyNode Current { get { throw Failure.OutsideEnumeration(); } }
-            object IEnumerator.Current { get { return Current; } }
-            public void Dispose() {}
-            public bool MoveNext() { return false; }
-            public void Reset() {}
+            yield break;
         }
     }
 }

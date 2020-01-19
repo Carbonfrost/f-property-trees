@@ -37,15 +37,17 @@ namespace Carbonfrost.Commons.PropertyTrees {
         public static readonly IValueSerializer Base64 = new Base64ValueSerializer();
 
         public static IValueSerializer GetValueSerializer(ParameterInfo parameter) {
-            if (parameter == null)
+            if (parameter == null) {
                 throw new ArgumentNullException("parameter");
+            }
 
             return CreateInstance(GetValueSerializerType(parameter));
         }
 
         public static IValueSerializer GetValueSerializer(PropertyInfo property) {
-            if (property == null)
+            if (property == null) {
                 throw new ArgumentNullException("property");
+            }
 
             return CreateInstance(GetValueSerializerType(property));
         }

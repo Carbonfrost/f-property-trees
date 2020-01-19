@@ -1,6 +1,4 @@
 //
-// - PropertyAttribute.cs -
-//
 // Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +14,6 @@
 // limitations under the License.
 //
 
-using System;
 using Carbonfrost.Commons.Core;
 
 namespace Carbonfrost.Commons.PropertyTrees {
@@ -25,15 +22,15 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         static readonly NamespaceUri pt = Xmlns.PropertyTrees2010;
 
-        public static readonly QualifiedName Value = pt + "value"; // $NON-NLS-1
-        public static readonly QualifiedName Position = pt + "position"; // $NON-NLS-1
-        public static readonly QualifiedName Browsable = pt + "browsable"; // $NON-NLS-1
-        public static readonly QualifiedName Category = pt + "category"; // $NON-NLS-1
-        public static readonly QualifiedName DefaultValue = pt + "defaultValue"; // $NON-NLS-1
-        public static readonly QualifiedName Enabled = pt + "enabled"; // $NON-NLS-1
-        public static readonly QualifiedName FullName = pt + "fullName"; // $NON-NLS-1
-        public static readonly QualifiedName IsReadOnly = pt + "readOnly"; // $NON-NLS-1
-        public static readonly QualifiedName PropertyType = pt + "propertyType"; // $NON-NLS-1
-        public static readonly QualifiedName Source = pt + "source"; // $NON-NLS-1
+        public static readonly QualifiedName Value = pt + "value";
+        public static readonly QualifiedName Position = pt + "position";
+        public static readonly QualifiedName Browsable = pt + "browsable";
+        public static readonly QualifiedName Category = pt + "category";
+        public static readonly QualifiedName DefaultValue = pt + "defaultValue";
+        public static readonly QualifiedName Enabled = pt + "enabled";
+        public static readonly QualifiedName FullName = pt + "fullName";
+        public static readonly QualifiedName IsReadOnly = pt + "readOnly";
+        public static readonly QualifiedName PropertyType = pt + "propertyType";
+        public static readonly QualifiedName Source = pt + "source";
     }
 }

@@ -1,7 +1,5 @@
 //
-// - ClearAttribute.cs -
-//
-// Copyright 2012 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2012, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +15,6 @@
 //
 
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 using Carbonfrost.Commons.PropertyTrees.Schema;
@@ -30,7 +27,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
         internal static readonly ClearAttribute Default = new ClearAttribute();
 
         internal override string ComputeName(MethodBase method) {
-            return string.IsNullOrEmpty(Name) ? "Clear" : Name;
+            return string.IsNullOrEmpty(Name) ? method.Name : Name;
         }
 
         internal override OperatorDefinition BuildInstance(MethodInfo method) {

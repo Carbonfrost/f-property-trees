@@ -1,7 +1,5 @@
 //
-// - PropertyTreeExceptionTests.cs -
-//
-// Copyright 2014 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,24 +15,22 @@
 //
 
 using System;
-using System.Linq;
+using Carbonfrost.Commons.Core.Runtime.Expressions;
 using Carbonfrost.Commons.PropertyTrees;
 using Carbonfrost.Commons.Spec;
 
 namespace Carbonfrost.UnitTests.PropertyTrees {
 
-    public class PropertyTreeExceptionTests {
+    public class PropertyTreeBinderOptionsTests : TestBase {
 
         [Fact]
-        public void Message_should_consolidate_competing_inner_line_infos() {
-            // No need to display two line infos in ToString() or Message
-            var inner = new PropertyTreeException("error", 10, 20);
-            var e = new PropertyTreeException("outer", inner, 2, 4);
+        public void ReadOnly_should_cause_properties_to_be_read_only() {
+            var opts = new PropertyTreeBinderOptions();
+            opts = PropertyTreeBinderOptions.ReadOnly(opts);
 
-            Assert.Contains("line 10, pos 20", e.ToString());
-            Assert.DoesNotContain("line 2, pos 4", e.Message);
+            Assert.Throws<InvalidOperationException>(
+                () => opts.ExpressionContext = new ExpressionContext()
+            );
         }
-
     }
 }
-

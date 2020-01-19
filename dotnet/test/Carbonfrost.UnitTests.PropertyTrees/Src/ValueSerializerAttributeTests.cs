@@ -1,7 +1,5 @@
 //
-// - PropertyNodeSelectionTests.cs -
-//
-// Copyright 2013 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,13 +19,18 @@ using Carbonfrost.Commons.PropertyTrees;
 using Carbonfrost.Commons.Spec;
 
 namespace Carbonfrost.UnitTests.PropertyTrees {
-    public class PropertyNodeSelectionTests : TestBase {
+
+    public class ValueSerializerAttributeTests {
 
         [Fact]
-        public void test_select_child_nominal() {
-            PropertyTree pt = LoadTree("alpha-list.xml");
-            // Assert.Equal(pt.FirstChild, pt.SelectChild("alpha1"));
+        public void Constructor_string_requires_argument() {
+            Assert.Throws<ArgumentNullException>(() => { new ValueSerializerAttribute((string) null); });
         }
 
+        [Fact]
+        public void Constructor_Type_requires_argument() {
+            Assert.Throws<ArgumentNullException>(() => { new ValueSerializerAttribute((Type) null); });
+        }
     }
+
 }

@@ -33,13 +33,13 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
             IEnumerable<TKey> IReadOnlyDictionary<TKey, TValue>.Keys {
                 get {
-                    return Empty<TKey>.Array;
+                    return Array.Empty<TKey>();
                 }
             }
 
             IEnumerable<TValue> IReadOnlyDictionary<TKey, TValue>.Values {
                 get {
-                    return Empty<TValue>.Array;
+                    return Array.Empty<TValue>();
                 }
             }
 
@@ -80,11 +80,11 @@ namespace Carbonfrost.Commons.PropertyTrees {
             }
 
             IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator() {
-                return Empty<KeyValuePair<TKey, TValue>>.Enumerator;
+                yield break;
             }
 
             IEnumerator IEnumerable.GetEnumerator() {
-                return Empty<KeyValuePair<TKey, TValue>>.Enumerator;
+                yield break;
             }
 
             public int Count {
@@ -111,13 +111,13 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
             ICollection<TKey> IDictionary<TKey, TValue>.Keys {
                 get {
-                    return Empty<TKey>.Array;
+                    return Array.Empty<TKey>();
                 }
             }
 
             ICollection<TValue> IDictionary<TKey, TValue>.Values {
                 get {
-                    return Empty<TValue>.Array;
+                    return Array.Empty<TValue>();
                 }
             }
         }

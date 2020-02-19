@@ -231,19 +231,20 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         // `IPropertyTreeReader' implemenation
         public object Bind(Type componentType) {
-            return Bind(componentType, PropertyTreeBinderOptions.Empty);
+            return Bind(componentType, null);
         }
 
         public object Bind(Type componentType, PropertyTreeBinderOptions options) {
-            if (componentType == null)
-                throw new ArgumentNullException("componentType"); // $NON-NLS-1
+            if (componentType == null) {
+                throw new ArgumentNullException("componentType");
+            }
 
             var obj = PropertyTreeMetaObject.Create(componentType);
             return TopLevelBind(obj, options, null).Component;
         }
 
         public T Bind<T>() {
-            return Bind<T>(PropertyTreeBinderOptions.Empty);
+            return Bind<T>(null);
         }
 
         public T Bind<T>(PropertyTreeBinderOptions options) {
@@ -251,7 +252,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public T Bind<T>(T component) {
-            return Bind<T>(component, PropertyTreeBinderOptions.Empty);
+            return Bind<T>(component, null);
         }
 
         public T Bind<T>(T component, PropertyTreeBinderOptions options) {

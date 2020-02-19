@@ -1,5 +1,5 @@
 //
-// Copyright 2015 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2015, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,12 +24,15 @@ namespace Carbonfrost.Commons.PropertyTrees {
     public sealed class ValueSerializerFactoryAttribute : AdapterFactoryAttribute {
 
         public Type ValueSerializerFactoryType {
-            get;
-            private set;
+            get {
+                return AdapterFactoryType;
+            }
         }
 
-        public ValueSerializerFactoryAttribute(Type adapterFactoryType) : base(AdapterRole.ValueSerializer, adapterFactoryType) {
-            ValueSerializerFactoryType = adapterFactoryType;
+        public ValueSerializerFactoryAttribute(Type adapterFactoryType) : base(adapterFactoryType) {
+        }
+
+        public ValueSerializerFactoryAttribute(string adapterFactoryType) : base(adapterFactoryType) {
         }
     }
 }

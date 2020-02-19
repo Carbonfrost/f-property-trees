@@ -24,7 +24,7 @@ namespace Carbonfrost.UnitTests.PropertyTrees {
 
         [Fact]
         public void Constructor_string_requires_argument() {
-            Assert.Throws<ArgumentNullException>(() => { new ValueSerializerAttribute((string) null); });
+            Assert.Throws<ArgumentException>(() => { new ValueSerializerAttribute((string) null); });
         }
 
         [Fact]

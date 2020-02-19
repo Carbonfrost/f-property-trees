@@ -23,12 +23,6 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         private ExpressionContext _expressionContext;
 
-        internal static readonly PropertyTreeBinderOptions Empty = ReadOnly(
-            new PropertyTreeBinderOptions {
-                _expressionContext = ExpressionContext.Empty
-            }
-        );
-
         public ExpressionContext ExpressionContext {
             get {
                 if (_expressionContext == null) {

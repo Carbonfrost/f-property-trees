@@ -20,9 +20,12 @@ using System.Runtime.CompilerServices;
 using Carbonfrost.Commons.Core.Runtime;
 using Carbonfrost.Commons.PropertyTrees;
 
-[assembly: Xmlns(Xmlns.PropertyTrees2010, ClrNamespace = "Carbonfrost.Commons.PropertyTrees.Expressions")]
-[assembly: Xmlns(Xmlns.PropertyTreesSchema2010, ClrNamespace = "Carbonfrost.Commons.PropertyTrees.Schema")]
-[assembly: Xmlns(Xmlns.PropertyTrees2010, ClrNamespace = "Carbonfrost.Commons.PropertyTrees")]
+[assembly: Xmlns(Xmlns.PropertyTrees2010, Namespace = "Carbonfrost.Commons.PropertyTrees.Expressions")]
+[assembly: Xmlns(Xmlns.PropertyTreesSchema2010, Namespace = "Carbonfrost.Commons.PropertyTrees.Schema")]
+[assembly: Xmlns(Xmlns.PropertyTrees2010, Namespace = "Carbonfrost.Commons.PropertyTrees")]
+
+[assembly: XmlnsPrefix(Xmlns.PropertyTreesSchema2010, "ps")]
+[assembly: XmlnsPrefix(Xmlns.PropertyTrees2010, "p")]
 
 [assembly: Defines(AdapterRole.ValueSerializer)]
 [assembly: Provides(typeof(IValueSerializer))]

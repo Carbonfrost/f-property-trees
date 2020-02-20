@@ -1,7 +1,5 @@
 //
-// - PropertyTreeReaderSettings.cs -
-//
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,19 +15,40 @@
 //
 
 using System;
+using Carbonfrost.Commons.Core;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
     public class PropertyTreeReaderSettings {
+        private bool _allowExternals;
+        private bool _isReadOnly;
 
-        public bool AllowExternals { get; set; }
+        public bool AllowExternals {
+            get {
+                return _allowExternals;
+            }
+            set {
+                ThrowIfReadOnly();
+                _allowExternals = value;
+            }
+        }
 
-        public PropertyTreeReaderSettings() {}
+        public bool IsReadOnly {
+            get {
+                return _isReadOnly;
+            }
+        }
+
+        public PropertyTreeReaderSettings() { }
 
         public PropertyTreeReaderSettings(PropertyTreeReaderSettings other) {
             if (other != null) {
-                this.AllowExternals = other.AllowExternals;
+                AllowExternals = other.AllowExternals;
             }
+        }
+
+        public void MakeReadOnly() {
+            _isReadOnly = true;
         }
 
         public PropertyTreeReaderSettings Clone() {
@@ -38,6 +57,12 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         protected virtual PropertyTreeReaderSettings CloneCore() {
             return new PropertyTreeReaderSettings(this);
+        }
+
+        protected void ThrowIfReadOnly() {
+            if (IsReadOnly) {
+                throw Failure.ReadOnlyCollection();
+            }
         }
 
     }

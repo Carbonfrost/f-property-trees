@@ -1,7 +1,5 @@
 //
-// - PropertyTreeWriterSettings.cs -
-//
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,18 +15,37 @@
 //
 
 using System;
+using Carbonfrost.Commons.Core;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
     public class PropertyTreeWriterSettings {
 
-        public bool IncludeMetadata { get; set; }
+        private bool _includeMetadata;
+        private bool _isReadOnly;
 
-        public PropertyTreeWriterSettings() {}
+        public bool IncludeMetadata {
+            get {
+                return _includeMetadata;
+            }
+            set {
+                ThrowIfReadOnly();
+                _includeMetadata = value;
+            }
+        }
+
+        public bool IsReadOnly {
+            get {
+                return _isReadOnly;
+            }
+        }
+
+        public PropertyTreeWriterSettings() {
+        }
 
         public PropertyTreeWriterSettings(PropertyTreeWriterSettings other) {
             if (other != null) {
-                this.IncludeMetadata = other.IncludeMetadata;
+                IncludeMetadata = other.IncludeMetadata;
             }
         }
 
@@ -40,5 +57,14 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return new PropertyTreeWriterSettings(this);
         }
 
+        public void MakeReadOnly() {
+            _isReadOnly = true;
+        }
+
+        protected void ThrowIfReadOnly() {
+            if (IsReadOnly) {
+                throw Failure.ReadOnlyCollection();
+            }
+        }
     }
 }

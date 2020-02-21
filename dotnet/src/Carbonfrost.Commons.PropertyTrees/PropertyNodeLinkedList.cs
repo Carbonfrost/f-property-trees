@@ -49,7 +49,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
             node.NextSibling = null;
             node.PreviousSibling = null;
             node.Position = -1;
-            node.parent = null;
+            node._parent = null;
         }
 
         internal void Remove(PropertyNode node) {
@@ -68,7 +68,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 ApplyPositions(next, node.Position);
             }
 
-            node.parent = null;
+            node._parent = null;
             node.Position = -1;
             node.NextSibling = null;
             node.PreviousSibling = null;
@@ -92,7 +92,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
             node.PreviousSibling = before.PreviousSibling;
             before.PreviousSibling = node;
             node.NextSibling = before;
-            node.parent = this.parent;
+            node._parent = this.parent;
             version++;
 
             ApplyPositions(node, before.Position);
@@ -119,7 +119,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
             }
 
             version++;
-            node.parent = this.parent;
+            node._parent = this.parent;
         }
 
         private void AddLast(PropertyNode node) {
@@ -135,7 +135,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
             }
 
             version++;
-            node.parent = this.parent;
+            node._parent = this.parent;
         }
 
         public override int Count {

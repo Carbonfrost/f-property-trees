@@ -1,13 +1,11 @@
 //
-// - Property.cs -
-//
-// Copyright 2010, 2012 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2012, 2020 Carbonfrost Systems, Inc. (https://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,19 +15,15 @@
 //
 
 using System;
-using System.ComponentModel;
-using System.Xml;
-
 
 using Carbonfrost.Commons.PropertyTrees.Schema;
 using Carbonfrost.Commons.Core;
-using Carbonfrost.Commons.Core.Runtime;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
-    public class Property : PropertyNode {
+    public partial class Property : PropertyNode {
 
-        private object value;
+        private object _value;
 
         public event EventHandler ValueChanged;
 
@@ -44,11 +38,11 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         // PropertyNode overrides
         public override object Value {
-            get { return value; }
+            get { return _value; }
             set {
                 // UNDONE Check the type
-                if (this.value != value) {
-                    this.value = value;
+                if (_value != value) {
+                    _value = value;
                     OnValueChanged(EventArgs.Empty);
                 }
             }
@@ -85,22 +79,26 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
             if (node.IsPropertyTree) {
                 PropertyTreeWriter w = new PropertyTreeNodeWriter((PropertyTree) node);
-                this.WriteTo(w);
+                WriteTo(w);
 
             } else {
                 // TODO Possible that Value isn't appropriate for Property
                 Property p = (Property) node;
-                p.QualifiedName = this.QualifiedName;
-                p.Value = this.Value;
+                p.QualifiedName = QualifiedName;
+                p.Value = Value;
             }
         }
 
         public new Property Clone() {
-            return new Property(QualifiedName) { Value = this.Value };
+            return new Property(QualifiedName) { Value = Value };
         }
 
         protected override PropertyNode CloneCore() {
             return Clone();
+        }
+
+        public new Property RemoveSelf() {
+            return (Property) base.RemoveSelf();
         }
 
         public override PropertyNodeType NodeType {

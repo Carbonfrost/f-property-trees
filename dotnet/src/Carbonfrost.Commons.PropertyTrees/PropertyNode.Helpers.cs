@@ -21,7 +21,7 @@ using System;
 namespace Carbonfrost.Commons.PropertyTrees {
 
     partial class PropertyNode {
-        
+
         // TODO This is a IPropertyTreeClient (futures)
 
         public bool GetBoolean(string path) {
@@ -206,7 +206,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 if (prop) {
                     this.AppendProperty(path, value);
                 } else {
-                    PropertyTree tree = this.AppendTree(path);
+                    PropertyTree tree = AppendPropertyTree(path);
                     tree.Value = value;
                 }
 

@@ -16,26 +16,28 @@
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
-    interface IPropertyNode : IPropertyTreeNavigator, IPropertyTreeReader {
+    interface IPropertyNode<TSelf, TProperty, TPropertyTree> : IPropertyTreeNavigator, IPropertyTreeReader
+        where TSelf : IPropertyNode<TSelf, TProperty, TPropertyTree>
+        where TProperty : IPropertyNode<TSelf, TProperty, TPropertyTree>
+        where TPropertyTree : IPropertyNode<TSelf, TProperty, TPropertyTree> {
 
         // This interface mainly ensures that
         // PropertyNode and PropertyTreeNavigator have similar public APIs
 
-        PropertyTreeWriter AppendChild();
-        void AppendChild(PropertyNode node);
-        void AppendChild(PropertyTreeReader newChild);
-        void AppendChild(PropertyTreeNavigator newChild);
-        void AppendPropertyTree(string localName, string ns);
-        void AppendPropertyTree(string localName);
-        void AppendProperty(string localName, string ns, object value);
-        void AppendProperty(string localName, object value);
-        void AppendProperty(string localName);
+        PropertyTreeWriter Append();
+        TSelf Append(PropertyNode node);
+        TSelf Append(PropertyTreeReader newChild);
+        TSelf Append(PropertyTreeNavigator newChild);
+        TPropertyTree AppendPropertyTree(string localName, string ns);
+        TPropertyTree AppendPropertyTree(string localName);
+        TProperty AppendProperty(string localName, string ns, object value);
+        TProperty AppendProperty(string localName, object value);
+        TProperty AppendProperty(string localName);
 
         PropertyTreeNavigator CreateNavigator();
-        void RemoveChildren(PropertyTreeNavigator lastSiblingToDelete);
-        void RemoveSelf();
+        TSelf RemoveChildren();
+        TSelf RemoveSelf();
         PropertyTreeWriter InsertAfter();
         PropertyTreeWriter InsertBefore();
-        void InsertBefore(PropertyTreeNavigator newSibling);
     }
 }

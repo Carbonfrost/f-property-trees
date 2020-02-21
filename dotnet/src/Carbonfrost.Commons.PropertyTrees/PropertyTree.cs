@@ -95,8 +95,9 @@ namespace Carbonfrost.Commons.PropertyTrees {
         public override void InsertChildAt(int index, PropertyNode propertyNode) {
             if (propertyNode == null)
                 throw new ArgumentNullException("propertyNode");
-            if (propertyNode.parent == this)
+            if (propertyNode.Parent == this) {
                 return;
+            }
 
             if (propertyNode.QualifiedName != null) {
                 PropertyNode existing = this.Children[propertyNode.QualifiedName];
@@ -135,10 +136,9 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return visitor.VisitPropertyTree(this, argument);
         }
 
-        public override bool RemoveChildren() {
+        protected override void RemoveChildrenCore() {
             bool c = children.Count > 0;
             this.children.Clear();
-            return c;
         }
 
         public override void CopyTo(PropertyNode node) {
@@ -149,7 +149,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
             if (node.IsPropertyTree) {
                 foreach (var child in this.Children) {
-                    node.AppendChild(child.Clone());
+                    node.Append(child.Clone());
                 }
 
             } else {
@@ -206,6 +206,26 @@ namespace Carbonfrost.Commons.PropertyTrees {
                     PropertyTree.FromValue(value).CopyContentsTo(this);
                 }
             }
+        }
+
+        public new PropertyTree Append(PropertyNode propertyNode) {
+            return (PropertyTree) base.Append(propertyNode);
+        }
+
+        public new PropertyTree Append(PropertyTreeReader newChild) {
+            return (PropertyTree) base.Append(newChild);
+        }
+
+        public new PropertyTree Append(PropertyTreeNavigator newChild) {
+            return (PropertyTree) base.Append(newChild);
+        }
+
+        public new PropertyTree RemoveChildren() {
+            return (PropertyTree) base.RemoveChildren();
+        }
+
+        public new PropertyTree RemoveSelf() {
+            return (PropertyTree) base.RemoveSelf();
         }
 
         // IXmlSerializable implementation

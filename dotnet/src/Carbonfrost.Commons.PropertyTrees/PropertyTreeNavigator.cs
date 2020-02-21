@@ -28,7 +28,8 @@ using Carbonfrost.Commons.PropertyTrees.Serialization;
 namespace Carbonfrost.Commons.PropertyTrees {
 
     [DebuggerDisplay("{debuggerDisplayProxy}")]
-    public abstract class PropertyTreeNavigator : IPropertyNode, IXmlLineInfo {
+    public abstract class PropertyTreeNavigator
+        : IPropertyNode<PropertyTreeNavigator, PropertyTreeNavigator, PropertyTreeNavigator>, IXmlLineInfo {
 
         // TODO Probably need additional APIs similar to XPath
 
@@ -66,81 +67,61 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         protected PropertyTreeNavigator() {}
 
-        public virtual PropertyTreeWriter AppendChild() {
+        public virtual PropertyTreeWriter Append() {
             throw new NotSupportedException();
         }
 
-        public void AppendChild(PropertyNode node) {
-            if (node == null)
-                throw new ArgumentNullException("node");
+        public PropertyTreeNavigator Append(PropertyNode node) {
+            if (node == null) {
+                throw new ArgumentNullException(nameof(node));
+            }
 
-            AppendChild().CopyFrom(node);
+            Append().CopyFrom(node);
+            return this;
         }
 
-        public virtual void AppendChild(PropertyTreeReader newChild) {
-            if (newChild == null)
-                throw new ArgumentNullException("newChild");
+        public virtual PropertyTreeNavigator Append(PropertyTreeReader newChild) {
+            if (newChild == null) {
+                throw new ArgumentNullException(nameof(newChild));
+            }
 
-            AppendChild().ReadToEnd(newChild);
+            Append().ReadToEnd(newChild);
+            return this;
         }
 
-        public virtual void AppendChild(PropertyTreeNavigator newChild) {
+        public virtual PropertyTreeNavigator Append(PropertyTreeNavigator newChild) {
             if (newChild == null)
                 throw new ArgumentNullException("newChild");
 
             PropertyTreeReader reader = CreateReader();
-            AppendChild(reader);
+            return Append(reader);
         }
 
-        public virtual void AppendPropertyTree(string localName, string ns) {
-            if (localName == null)
-                throw new ArgumentNullException("localName");
-            if (localName.Length == 0)
-                throw Failure.EmptyString("localName");
+        public abstract PropertyTreeNavigator AppendPropertyTree(string localName, string ns);
 
-            var w = AppendChild();
-            w.WriteStartTree(localName, ns);
-            w.WriteEndTree();
+        public PropertyTreeNavigator AppendPropertyTree(string localName) {
+            return AppendPropertyTree(localName, null);
         }
 
-        public virtual void AppendPropertyTree(string localName) {
-            if (localName == null)
-                throw new ArgumentNullException("localName");
-            if (localName.Length == 0)
-                throw Failure.EmptyString("localName");
-
-            var w = AppendChild();
-            w.WriteStartTree(localName);
-            w.WriteEndTree();
+        public PropertyTreeNavigator AppendProperty(string localName, object value) {
+            return AppendProperty(localName, null, value);
         }
 
-        public void AppendProperty(string localName, object value) {
-            AppendProperty(localName, null, value);
+        public PropertyTreeNavigator AppendProperty(string localName) {
+            return AppendProperty(localName, null);
         }
 
-        public void AppendProperty(string localName) {
-            AppendProperty(localName, null);
-        }
-
-        public virtual void AppendProperty(string localName, string ns, object value) {
-            if (localName == null)
-                throw new ArgumentNullException("localName");
-            if (localName.Length == 0)
-                throw Failure.EmptyString("localName");
-
-            // TODO Handle value types that can't be supported here
-            AppendChild().WriteProperty(localName, ns, Convert.ToString(value));
-        }
+        public abstract PropertyTreeNavigator AppendProperty(string localName, string ns, object value);
 
         public virtual PropertyTreeNavigator CreateNavigator() {
             return Clone();
         }
 
-        public virtual void RemoveChildren(PropertyTreeNavigator lastSiblingToDelete) {
+        public virtual PropertyTreeNavigator RemoveChildren() {
             throw new NotSupportedException();
         }
 
-        public virtual void RemoveSelf() {
+        public virtual PropertyTreeNavigator RemoveSelf() {
             throw new NotSupportedException();
         }
 

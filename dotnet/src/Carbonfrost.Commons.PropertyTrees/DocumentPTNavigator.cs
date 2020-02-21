@@ -1,13 +1,11 @@
 //
-// - DocumentPTNavigator.cs -
-//
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2020 Carbonfrost Systems, Inc. (https://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +16,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Xml;
 
 
@@ -30,27 +27,34 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
     sealed class DocumentPTNavigator : PropertyTreeNavigator, IXmlNamespaceResolver, IUriContext {
 
-        private PropertyNode current;
+        private PropertyNode _current;
 
         public DocumentPTNavigator(PropertyNode current) {
-            this.current = current;
+            _current = current;
         }
 
         public override Uri BaseUri {
             get {
-                return current.BaseUri;
+                return _current.BaseUri;
             }
         }
 
         public override int Position {
-            get { return current.Position; } }
+            get {
+                return _current.Position;
+            }
+        }
 
         public override int LineNumber {
-            get { return current.LineNumber; }
+            get {
+                return _current.LineNumber;
+            }
         }
 
         public override int LinePosition {
-            get { return current.LinePosition; }
+            get {
+                return _current.LinePosition;
+            }
         }
 
         public override bool MoveTo(PropertyTreeNavigator other) {
@@ -58,16 +62,16 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 throw new ArgumentNullException("other");
 
             DocumentPTNavigator otherNav = other as DocumentPTNavigator;
-            if (otherNav != null && this.current.Root == otherNav.current.Root) {
-                this.current = otherNav.current;
+            if (otherNav != null && _current.Root == otherNav._current.Root) {
+                _current = otherNav._current;
                 return true;
             }
             return false;
         }
 
         public override bool MoveToChild(int position) {
-            if (position < 0 && current.Parent != null) {
-                position = position % current.Parent.Children.Count;
+            if (position < 0 && _current.Parent != null) {
+                position = position % _current.Parent.Children.Count;
             }
             return MoveToChild(node => node.Position == position);
         }
@@ -89,11 +93,11 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public override bool MoveToFirst() {
-            return MoveToGeneric(this.current.FirstSibling);
+            return MoveToGeneric(_current.FirstSibling);
         }
 
         public override void MoveToRoot() {
-            this.current = this.current.Root;
+            _current = _current.Root;
         }
 
         public override bool MoveToSibling(int index) {
@@ -123,50 +127,50 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public override bool MoveToNext() {
-            return MoveToGeneric(this.current.NextSibling);
+            return MoveToGeneric(_current.NextSibling);
         }
 
         public override bool MoveToPrevious() {
-            return MoveToGeneric(this.current.PreviousSibling);
+            return MoveToGeneric(_current.PreviousSibling);
         }
 
         public override bool MoveToParent() {
-            return MoveToGeneric(this.current.Parent);
+            return MoveToGeneric(_current.Parent);
         }
 
         public override PropertyTreeNavigator Clone() {
-            return new DocumentPTNavigator(this.current);
+            return new DocumentPTNavigator(_current);
         }
 
         public override object Value {
-            get { return this.current.Value; }
-            set { this.current.Value = value; }
+            get { return _current.Value; }
+            set { _current.Value = value; }
         }
 
         public override int Depth {
-            get { return current.Depth; } }
+            get { return _current.Depth; } }
 
         public override PropertyNodeDefinition Definition {
-            get { return current.Definition; } }
+            get { return _current.Definition; } }
 
         public override PropertyNodeType NodeType {
-            get { return this.current.NodeType; } }
+            get { return _current.NodeType; } }
 
         public override string Namespace {
-            get { return this.current.Namespace; } }
+            get { return _current.Namespace; } }
 
         public override string Name {
-            get { return this.current.Name; } }
+            get { return _current.Name; } }
 
         internal override bool IsExpressNamespace {
             get {
-                return this.current.IsExpressNamespace;
+                return _current.IsExpressNamespace;
             }
         }
 
-        public override PropertyTreeWriter AppendChild() {
-            if (this.current.IsPropertyTree) {
-                var tree = (PropertyTree) this.current;
+        public override PropertyTreeWriter Append() {
+            if (_current.IsPropertyTree) {
+                var tree = (PropertyTree) _current;
                 return new PropertyTreeNodeWriter(tree);
             } else {
                 // TODO Could there be a schema tree here?
@@ -174,8 +178,14 @@ namespace Carbonfrost.Commons.PropertyTrees {
             }
         }
 
-        public override void AppendProperty(string localName, string ns, object value) {
-            this.current.AppendProperty(localName, ns, value);
+        public override PropertyTreeNavigator AppendProperty(string localName, string ns, object value) {
+            _current = _current.AppendProperty(localName, ns, value);
+            return this;
+        }
+
+        public override PropertyTreeNavigator AppendPropertyTree(string localName, string ns) {
+            _current = _current.AppendPropertyTree(localName, ns);
+            return this;
         }
 
         Uri IUriContext.BaseUri {
@@ -188,11 +198,11 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         // ---
         private bool MoveToChild(Func<PropertyNode, bool> predicate) {
-            return MoveToSibling(this.current.FirstChild, predicate);
+            return MoveToSibling(_current.FirstChild, predicate);
         }
 
         private bool MoveToSibling(Func<PropertyNode, bool> predicate) {
-            return MoveToSibling(this.current.FirstSibling, predicate);
+            return MoveToSibling(_current.FirstSibling, predicate);
         }
 
         private bool MoveToSibling(PropertyNode start,
@@ -205,7 +215,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
                         return false;
                 }
 
-                this.current = node;
+                _current = node;
                 return true;
             }
             return false;
@@ -215,7 +225,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
             if (node == null)
                 return false;
 
-            this.current = node;
+            _current = node;
             return true;
         }
 
@@ -225,7 +235,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public string LookupNamespace(string prefix) {
-            return this.current.LookupNamespace(prefix);
+            return _current.LookupNamespace(prefix);
         }
 
         public string LookupPrefix(string namespaceName) {

@@ -108,18 +108,6 @@ namespace Carbonfrost.Commons.PropertyTrees {
             this.children.InsertInternal(index, propertyNode);
         }
 
-        protected override object SelectAttributeCore(string attribute) {
-            if (attribute == null)
-                throw new ArgumentNullException("attribute");
-            if (attribute.Length == 0)
-                throw Failure.EmptyString("attribute");
-
-            switch (attribute) {
-                default:
-                    return null;
-            }
-        }
-
         public override PropertyNodeCollection Children { get { return this.children; } }
 
         protected internal override void AcceptVisitor(PropertyTreeVisitor visitor) {

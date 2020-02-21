@@ -60,19 +60,6 @@ namespace Carbonfrost.Commons.PropertyTrees {
             }
         }
 
-        // UNDONE Other attributes
-
-        protected override object SelectAttributeCore(string attribute) {
-            switch (attribute) {
-                case "value":
-                    return Value;
-                case "position":
-                    return (Parent == null) ? -1 : Parent.IndexOfChild(this);
-                default:
-                    return null;
-            }
-        }
-
         public override void CopyTo(PropertyNode node) {
             if (node == null)
                 throw new ArgumentNullException("node");

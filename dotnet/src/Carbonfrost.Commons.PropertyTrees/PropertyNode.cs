@@ -312,33 +312,6 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return CreateNavigator().Bind(instanceType, options);
         }
 
-        public object SelectAttribute(string attribute) {
-            if (attribute == null) {
-                throw new ArgumentNullException(nameof(attribute));
-            }
-            attribute = attribute.Trim();
-
-            if (attribute.Length == 0)
-                throw Failure.AllWhitespace(nameof(attribute));
-
-            switch (attribute) {
-                case "position":
-                    return Position;
-                case "empty":
-                    return !HasChildren;
-                case "root":
-                    return IsRoot;
-                case "tree":
-                    return IsPropertyTree;
-                case "property":
-                    return IsProperty;
-                default:
-                    return SelectAttributeCore(attribute);
-            }
-        }
-
-        protected abstract object SelectAttributeCore(string attribute);
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {

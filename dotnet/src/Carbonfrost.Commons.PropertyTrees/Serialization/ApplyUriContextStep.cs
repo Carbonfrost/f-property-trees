@@ -25,7 +25,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyUriContextStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 Predicate<PropertyTreeNavigator> predicate = ImplicitDirective(target, "base");
 
                 var node = children.FindAndRemove(predicate).FirstOrDefault();
@@ -35,10 +35,10 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
                 if (node == null) {
                     baseUri = self.BaseUri;
-                    serviceProvider = Parent;
+                    serviceProvider = parent;
                 } else {
                     baseUri = Utility.NewUri(Convert.ToString(node.Value));
-                    serviceProvider = Parent.GetBasicServices(node);
+                    serviceProvider = parent.GetBasicServices(node);
                 }
                 return target.BindBaseUri(baseUri, serviceProvider);
             }

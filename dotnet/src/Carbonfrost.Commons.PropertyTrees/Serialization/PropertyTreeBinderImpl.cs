@@ -112,9 +112,6 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
         public PropertyTreeBinderImpl(IPropertyTreeBinderErrors errors,
                                       PropertyTreeBinderOptions options) {
             _errors = errors;
-            foreach (var p in Pipeline) {
-                p.Parent = this;
-            }
             this.directiveFactory = new SerializerDirectiveFactory(this);
             _options = options;
         }
@@ -147,7 +144,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                                                        PropertyTreeNavigator self,
                                                        NodeList children) {
             foreach (var step in Pipeline) {
-                target = step.Process(target, self, children);
+                target = step.Process(this, target, self, children);
             }
 
             return target;

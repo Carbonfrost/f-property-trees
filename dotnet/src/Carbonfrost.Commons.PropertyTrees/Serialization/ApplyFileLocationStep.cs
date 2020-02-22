@@ -23,8 +23,8 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyFileLocationStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
-                IServiceProvider serviceProvider = Parent.GetBasicServices(self);
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+                IServiceProvider serviceProvider = parent.GetBasicServices(self);
                 int lineNumber = self.LineNumber;
                 int linePosition = self.LinePosition;
                 return target.BindFileLocation(lineNumber, linePosition, serviceProvider);

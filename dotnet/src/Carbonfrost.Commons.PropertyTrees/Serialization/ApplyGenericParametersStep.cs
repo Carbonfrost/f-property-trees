@@ -26,7 +26,8 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyGenericParametersStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(
+            public override PropertyTreeMetaObject Process(
+                PropertyTreeBinderImpl parent,
                 PropertyTreeMetaObject target,
                 PropertyTreeNavigator self,
                 NodeList children) {
@@ -51,10 +52,10 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                     if (ex.IsCriticalException())
                         throw;
 
-                    Parent._errors.CouldNotBindGenericParameters(target.ComponentType, ex, self.FileLocation);
+                    parent._errors.CouldNotBindGenericParameters(target.ComponentType, ex, self.FileLocation);
                 }
 
-                Parent.Bind(target, children.First(), null);
+                parent.Bind(target, children.First(), null);
                 children.Clear();
                 return target;
             }

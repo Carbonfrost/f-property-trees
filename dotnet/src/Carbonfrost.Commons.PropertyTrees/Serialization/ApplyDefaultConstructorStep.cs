@@ -26,7 +26,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyDefaultConstructorStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject EndStep(PropertyTreeMetaObject target) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 if (target.ShouldConstruct) {
                     var ctor = target.GetDefinition().Constructor;
 

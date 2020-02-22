@@ -27,11 +27,11 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyLateBoundTypeStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 Type type = target.ComponentType ?? typeof(object);
                 Type concreteClass = type.GetConcreteClass();
                 QualifiedName name = self.QualifiedName;
-                IServiceProvider serviceProvider = Parent;
+                IServiceProvider serviceProvider = parent;
 
                 if (concreteClass != null && type != concreteClass) {
                     target.BindTargetType(TypeReference.FromType(concreteClass), serviceProvider);
@@ -44,23 +44,20 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                     // TODO This predicate is probably too loose
                     Predicate<PropertyTreeNavigator> predicate = t => t.Name == "type";
                     var node = children.FindAndRemove(predicate).FirstOrDefault();
-                    ApplyType(target, node);
+                    ApplyType(parent, target, node);
                 }
-                return target;
-            }
-
-            public override PropertyTreeMetaObject EndStep(PropertyTreeMetaObject target) {
                 return PickBuilderTypeIfAvailable(target);
             }
 
-            private void ApplyType(PropertyTreeMetaObject target,
+            private void ApplyType(PropertyTreeBinderImpl parent,
+                                   PropertyTreeMetaObject target,
                                    PropertyTreeNavigator node) {
 
                 if (node == null)
                     return;
 
-                var serviceProvider = Parent.GetBasicServices(node);
-                target.BindTargetType(this.DirectiveFactory.CreateTargetType(node), serviceProvider);
+                var serviceProvider = parent.GetBasicServices(node);
+                target.BindTargetType(parent.DirectiveFactory.CreateTargetType(node), serviceProvider);
             }
 
             private PropertyTreeMetaObject PickBuilderTypeIfAvailable(PropertyTreeMetaObject target) {

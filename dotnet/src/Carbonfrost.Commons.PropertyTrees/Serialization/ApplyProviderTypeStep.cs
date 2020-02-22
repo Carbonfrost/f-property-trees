@@ -27,9 +27,10 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyProviderTypeStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target,
-                                                             PropertyTreeNavigator self,
-                                                             NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent,
+                                                           PropertyTreeMetaObject target,
+                                                           PropertyTreeNavigator self,
+                                                           NodeList children) {
                 Type type = target.ComponentType ?? typeof(object);
 
                 // Select providers
@@ -37,8 +38,8 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                     var node = children.FindAndRemove(ImplicitDirective(target, "provider")).FirstOrDefault();
 
                     if (node != null) {
-                        var serviceProvider = Parent.GetBasicServices(node);
-                        var pro = DirectiveFactory.CreateTargetProvider(type, node);
+                        var serviceProvider = parent.GetBasicServices(node);
+                        var pro = parent.DirectiveFactory.CreateTargetProvider(type, node);
                         if (pro != null) {
                             target = target.BindTargetProvider(pro, serviceProvider);
                             return target;

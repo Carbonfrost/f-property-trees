@@ -20,9 +20,9 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ErrorUnmatchedMembersStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 foreach (var child in children.Rest()) {
-                    Parent._errors.BindUnmatchedProperty(child.QualifiedName, target.ComponentType, child.FileLocation);
+                    parent._errors.BindUnmatchedProperty(child.QualifiedName, target.ComponentType, child.FileLocation);
                 }
 
                 return target;

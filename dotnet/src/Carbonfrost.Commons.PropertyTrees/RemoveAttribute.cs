@@ -1,7 +1,5 @@
 //
-// - RemoveAttribute.cs -
-//
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,15 +23,20 @@ using Carbonfrost.Commons.PropertyTrees.Schema;
 namespace Carbonfrost.Commons.PropertyTrees {
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public sealed class RemoveAttribute : RoleAttribute {
+    public sealed class RemoveAttribute : Attribute, IRoleAttribute {
 
         internal static readonly RemoveAttribute Default = new RemoveAttribute();
 
-        internal override string ComputeName(MethodBase method) {
+        public string Name { get; set; }
+
+        string IRoleAttribute.ComputeName(MethodBase method) {
             return string.IsNullOrEmpty(Name) ? "Remove" : Name;
         }
 
-        internal override OperatorDefinition BuildInstance(MethodInfo method) {
+        void IRoleAttribute.ProcessExtensionMethod(MethodInfo mi) {
+        }
+
+        OperatorDefinition IRoleAttribute.BuildInstance(MethodInfo method) {
             return new ReflectedRemoveDefinition(this, method);
         }
     }

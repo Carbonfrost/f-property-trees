@@ -63,7 +63,7 @@ namespace Carbonfrost.UnitTests.PropertyTrees.Schema {
         [InlineData(typeof(S<Alpha>), "s")]
         public void ComputeName_Natural_should_use_return_type(Type type, string expected) {
             var method = type.GetTypeInfo().GetMethod("AddNew");
-            string name = AddAttribute.Natural.ComputeName(method);
+            string name = ((IRoleAttribute) AddAttribute.Natural).ComputeName(method);
             Assert.Equal(expected, name, StringComparer.OrdinalIgnoreCase);
             Assert.Contains(expected, PropertyTreeDefinition.FromType(type).EnumerateOperators().Select(t => t.Name));
         }

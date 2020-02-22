@@ -1,7 +1,5 @@
 //
-// - RoleAttribute.cs -
-//
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,31 +14,13 @@
 // limitations under the License.
 //
 
-using System;
 using System.Reflection;
 using Carbonfrost.Commons.PropertyTrees.Schema;
 
 namespace Carbonfrost.Commons.PropertyTrees {
-
-    #pragma warning disable 3015
-
-    // There are no accessible constructors for an attribute, but
-    // it's abstract
-
-    public abstract class RoleAttribute : Attribute {
-
-        public string Name { get; set; }
-
-        internal RoleAttribute() {}
-
-        internal virtual void ProcessExtensionMethod(MethodInfo mi) {
-        }
-
-        internal virtual string ComputeName(MethodBase method) {
-            return Name;
-        }
-
-        internal abstract OperatorDefinition BuildInstance(MethodInfo method);
-
+    interface IRoleAttribute {
+        void ProcessExtensionMethod(MethodInfo mi);
+        string ComputeName(MethodBase method);
+        OperatorDefinition BuildInstance(MethodInfo method);
     }
 }

@@ -24,21 +24,23 @@ using Carbonfrost.Commons.PropertyTrees.Schema;
 namespace Carbonfrost.Commons.PropertyTrees {
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public sealed class AddAttribute : RoleAttribute {
+    public sealed class AddAttribute : Attribute, IRoleAttribute {
 
         static readonly Regex PATTERN = new Regex(@"(Builder)?(Collection|List)?(`\d+)?$");
 
         internal static readonly AddAttribute Default = new AddAttribute();
         internal static readonly AddAttribute Natural = new AddAttribute();
 
-        internal override void ProcessExtensionMethod(MethodInfo mi) {
+        public string Name { get; set; }
+
+        void IRoleAttribute.ProcessExtensionMethod(MethodInfo mi) {
             var target = (ReflectedPropertyTreeDefinition) PropertyTreeDefinition.FromType(
                 mi.GetParameters()[0].ParameterType);
 
             target.AddFactoryDefinition(ReflectedPropertyTreeFactoryDefinition.FromFactory(this, mi));
         }
 
-        internal override string ComputeName(MethodBase method) {
+        string IRoleAttribute.ComputeName(MethodBase method) {
             if (string.IsNullOrEmpty(Name)) {
                 if (object.ReferenceEquals(this, Natural))
                     return GetNaturalName(method.DeclaringType);
@@ -49,7 +51,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 return Name;
         }
 
-        internal override OperatorDefinition BuildInstance(MethodInfo method) {
+        OperatorDefinition IRoleAttribute.BuildInstance(MethodInfo method) {
             return ReflectedPropertyTreeFactoryDefinition.FromFactory(this, method);
         }
 

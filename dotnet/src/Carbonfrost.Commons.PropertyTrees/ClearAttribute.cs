@@ -22,15 +22,20 @@ using Carbonfrost.Commons.PropertyTrees.Schema;
 namespace Carbonfrost.Commons.PropertyTrees {
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
-    public sealed class ClearAttribute : RoleAttribute {
+    public sealed class ClearAttribute : Attribute, IRoleAttribute {
 
         internal static readonly ClearAttribute Default = new ClearAttribute();
 
-        internal override string ComputeName(MethodBase method) {
+        public string Name { get; set; }
+
+        string IRoleAttribute.ComputeName(MethodBase method) {
             return string.IsNullOrEmpty(Name) ? method.Name : Name;
         }
 
-        internal override OperatorDefinition BuildInstance(MethodInfo method) {
+        void IRoleAttribute.ProcessExtensionMethod(MethodInfo mi) {
+        }
+
+        OperatorDefinition IRoleAttribute.BuildInstance(MethodInfo method) {
             return new ReflectedClearDefinition(this, method);
         }
     }

@@ -28,14 +28,14 @@ namespace Carbonfrost.UnitTests.PropertyTrees {
         [Fact]
         public void ComputeName_should_derive_from_Name_property() {
             var method = GetType().GetMethod("M");
-            var name = new ClearAttribute { Name = "N" }.ComputeName(method);
+            var name = ((IRoleAttribute) new ClearAttribute { Name = "N" }).ComputeName(method);
             Assert.Equal("N", name);
         }
 
         [Fact]
         public void ComputeName_should_derive_from_method_name() {
             var method = GetType().GetMethod("M");
-            var name = new ClearAttribute().ComputeName(method);
+            var name = ((IRoleAttribute) new ClearAttribute()).ComputeName(method);
             Assert.Equal("M", name);
         }
 

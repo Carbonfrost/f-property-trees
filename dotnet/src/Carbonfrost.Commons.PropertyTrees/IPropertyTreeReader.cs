@@ -1,6 +1,4 @@
 //
-// - IPropertyTreeReader.cs -
-//
 // Copyright 2012 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +14,6 @@
 // limitations under the License.
 //
 
-using System;
-
 namespace Carbonfrost.Commons.PropertyTrees {
 
     interface IPropertyTreeReader : IPropertyTreeNavigator {
@@ -26,5 +22,4 @@ namespace Carbonfrost.Commons.PropertyTrees {
         void WriteTo(PropertyTreeWriter writer);
         void CopyTo(PropertyNode node);
     }
-
 }

@@ -55,6 +55,13 @@ namespace Carbonfrost.UnitTests.PropertyTrees.Serialization {
             Assert.Equal("'solution is ' + (4 + a) + ' or ' + (4 + b)",
                          expr.ToString());
         }
+
+        [Fact]
+        public void Parse_should_detect_escaped_expression() {
+            Expression expr;
+            ExpressionUtility.TryParse("$${4 + a}", out expr);
+            Assert.Equal("[ '$', '{4 + a}' ]", expr.ToString());
+        }
     }
 }
 

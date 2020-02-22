@@ -1,7 +1,5 @@
 //
-// - PropertyTreeValueOptions.cs -
-//
-// Copyright 2012 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,13 +14,13 @@
 // limitations under the License.
 //
 
-using System;
+using System.Reflection;
+using Carbonfrost.Commons.PropertyTrees.Schema;
 
 namespace Carbonfrost.Commons.PropertyTrees {
-
-    [Flags]
-    public enum PropertyTreeValueOptions {
-        None = 0x0,
-        Live = 0x1,
+    interface IRoleAttribute {
+        void ProcessExtensionMethod(MethodInfo mi);
+        string ComputeName(MethodBase method);
+        OperatorDefinition BuildInstance(MethodInfo method);
     }
 }

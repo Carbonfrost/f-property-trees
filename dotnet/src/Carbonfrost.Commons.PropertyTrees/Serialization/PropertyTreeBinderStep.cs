@@ -121,43 +121,11 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         abstract class PropertyTreeBinderStep {
 
-            public PropertyTreeBinderImpl Parent { get; set; }
+            public abstract PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent,
+                                                           PropertyTreeMetaObject target,
+                                                           PropertyTreeNavigator self,
+                                                           NodeList children);
 
-            public SerializerDirectiveFactory DirectiveFactory {
-                get {
-                    return Parent.DirectiveFactory;
-                }
-            }
-
-            public PropertyTreeMetaObject Process(
-                PropertyTreeMetaObject target,
-                PropertyTreeNavigator self,
-                NodeList children)
-            {
-
-                target = StartStep(target, self, children);
-                return EndStep(target);
-            }
-
-            public virtual PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target,
-                                                            PropertyTreeNavigator self,
-                                                            NodeList children) {
-                return target;
-            }
-
-            public virtual PropertyTreeMetaObject EndStep(PropertyTreeMetaObject target)
-            {
-                return target;
-            }
-
-            internal Dictionary<string, PropertyTreeMetaObject> ExtractParameterDictionary(
-                OperatorDefinition op,
-                PropertyTreeMetaObject target,
-                IServiceProvider serviceProvider,
-                NodeList children)
-            {
-                return Parent.ExtractParameterDictionary(op, target, serviceProvider, children);
-            }
         }
     }
 

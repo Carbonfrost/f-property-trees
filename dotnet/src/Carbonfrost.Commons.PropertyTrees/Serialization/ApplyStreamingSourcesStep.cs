@@ -24,15 +24,15 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyStreamingSourcesStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 Predicate<PropertyTreeNavigator> predicate = ImplicitDirective(target, "source");
 
                 var node = children.FindAndRemove(predicate).FirstOrDefault();
                 if (node != null) {
-                    IServiceProvider serviceProvider = Parent.GetBasicServices(node);
+                    IServiceProvider serviceProvider = parent.GetBasicServices(node);
                     var uriContext = node as IUriContext;
                     TargetSourceDirective ss;
-                    ss = this.DirectiveFactory.CreateTargetSource(node, uriContext);
+                    ss = parent.DirectiveFactory.CreateTargetSource(node, uriContext);
 
                     if (ss != null) {
                         try {
@@ -43,7 +43,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                             if (ex.IsCriticalException())
                                 throw;
 
-                            Parent._errors.FailedToLoadFromSource(ss.Uri, ex, node.FileLocation);
+                            parent._errors.FailedToLoadFromSource(ss.Uri, ex, node.FileLocation);
                         }
                     }
                 }

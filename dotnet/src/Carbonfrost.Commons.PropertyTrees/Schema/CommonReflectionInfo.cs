@@ -42,7 +42,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Schema {
             }
         }
 
-        public CommonReflectionInfo(OperatorDefinition def, RoleAttribute attr, MethodBase method) {
+        public CommonReflectionInfo(OperatorDefinition def, IRoleAttribute attr, MethodBase method) {
             this.method = method;
             this.name = attr.ComputeName(method);
 

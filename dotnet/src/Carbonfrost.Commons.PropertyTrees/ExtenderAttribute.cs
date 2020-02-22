@@ -26,15 +26,21 @@ namespace Carbonfrost.Commons.PropertyTrees {
     [AttributeUsage(AttributeTargets.Method
                     | AttributeTargets.Class
                     | AttributeTargets.Assembly, AllowMultiple = true, Inherited = false)]
-    public sealed class ExtenderAttribute : RoleAttribute {
+    public sealed class ExtenderAttribute : Attribute, IRoleAttribute {
 
         static readonly Regex PATTERN = new Regex(@"^(Get|Set)");
 
-        internal override OperatorDefinition BuildInstance(MethodInfo method) {
+        public string Name { get; set; }
+
+        OperatorDefinition IRoleAttribute.BuildInstance(MethodInfo method) {
             return null;
         }
 
-        internal override void ProcessExtensionMethod(MethodInfo mi) {
+        string IRoleAttribute.ComputeName(MethodBase method) {
+            return Name;
+        }
+
+        void IRoleAttribute.ProcessExtensionMethod(MethodInfo mi) {
             var target = (ReflectedPropertyTreeDefinition) PropertyTreeDefinition.FromType(
                 mi.GetParameters()[0].ParameterType);
 

@@ -1,5 +1,5 @@
 //
-// Copyright 2010, 2016 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2016, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,8 +39,9 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
             T result = default(T);
             foreach (var e in items) {
-                if (flag)
+                if (flag) {
                     throw error();
+                }
 
                 flag = true;
                 result = e;
@@ -53,15 +54,16 @@ namespace Carbonfrost.Commons.PropertyTrees {
             // Prevent confusion in the error message by concealing internal type
             // names from error messages
 
-            if (type.Namespace == "Carbonfrost.Commons.PropertyTrees.Serialization")
+            if (type.Namespace == "Carbonfrost.Commons.PropertyTrees.Serialization") {
                 return true;
-            else
-                return false;
+            }
+            return false;
         }
 
         public static bool IsCriticalException(this Exception ex) {
             // NRE, access violation, etc. that occur in this assembly are critical
-            if (new StackTrace(ex, false).GetFrames()[0].GetMethod().DeclaringType.GetTypeInfo().Assembly == typeof(Mixins).GetTypeInfo().Assembly) {
+            var thisFrame = new StackTrace(ex, false).GetFrames()[0];
+            if (thisFrame.GetMethod().DeclaringType.GetTypeInfo().Assembly == typeof(Mixins).GetTypeInfo().Assembly) {
                 return Failure.IsCriticalException(ex);
             }
 
@@ -79,10 +81,12 @@ namespace Carbonfrost.Commons.PropertyTrees {
         {
             TValue result;
             if (!source.TryGetValue(key, out result)) {
-                if (factory == null)
+                if (factory == null) {
                     result = default(TValue);
-                else
+                }
+                else {
                     result = factory(key);
+                }
 
                 source[key] = result;
             }
@@ -123,7 +127,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 return a.DefinedTypes;
             }
             catch (ReflectionTypeLoadException e) {
-                return e.Types.Select(t => t.GetTypeInfo()).Where(t => t != null);
+                return e.Types.Where(t => t != null).Select(t => t.GetTypeInfo());
             }
         }
 

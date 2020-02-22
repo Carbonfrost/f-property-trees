@@ -1,7 +1,5 @@
 //
-// - EnumValueSerializerExtension.cs -
-//
-// Copyright 2014 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2014, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,8 +16,6 @@
 
 using System;
 using System.Globalization;
-using System.Linq;
-
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
@@ -38,19 +34,13 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         public override object ConvertFromString(string text, Type destinationType, IValueSerializerContext context) {
             if (text != null && text.IndexOfAny(WS) >= 0) {
-                try {
-
-                    long num = 0;
-                    foreach (var item in text.Split(WS, StringSplitOptions.RemoveEmptyEntries)) {
-                        string a = InflectedName(item);
-                        num |= Convert.ToInt64((Enum) Enum.Parse(destinationType, a, /* ignoreCase */ true), CultureInfo.InvariantCulture);
-                    }
-
-                    return Enum.ToObject(destinationType, num);
-
-                } catch (Exception) {
-                    // Let framework handle this by retrying
+                long num = 0;
+                foreach (var item in text.Split(WS, StringSplitOptions.RemoveEmptyEntries)) {
+                    string a = InflectedName(item);
+                    num |= Convert.ToInt64((Enum) Enum.Parse(destinationType, a, /* ignoreCase */ true), CultureInfo.InvariantCulture);
                 }
+
+                return Enum.ToObject(destinationType, num);
             }
 
             return Base.ConvertFromString(InflectedName(text), destinationType, context);
@@ -61,5 +51,4 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return string.Concat(names);
         }
     }
-
 }

@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-
 namespace Carbonfrost.Commons.PropertyTrees {
 
     struct ListConverter : IValueSerializer {

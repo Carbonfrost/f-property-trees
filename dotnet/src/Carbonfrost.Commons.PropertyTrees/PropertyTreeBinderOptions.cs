@@ -1,5 +1,5 @@
 //
-// Copyright 2015 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2015, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,14 +23,11 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         private ExpressionContext _expressionContext;
 
-        internal static readonly PropertyTreeBinderOptions Empty = ReadOnly(
-            new PropertyTreeBinderOptions {
-                _expressionContext = ExpressionContext.Empty
-            }
-        );
-
         public ExpressionContext ExpressionContext {
             get {
+                if (_expressionContext == null) {
+                    _expressionContext = new ExpressionContext();
+                }
                 return _expressionContext;
             }
             set {
@@ -43,11 +40,10 @@ namespace Carbonfrost.Commons.PropertyTrees {
             if (other == null) {
                 return;
             }
-            _expressionContext = other.ExpressionContext ?? new ExpressionContext();
+            _expressionContext = other.ExpressionContext;
         }
 
-        public PropertyTreeBinderOptions() {
-            _expressionContext = new ExpressionContext();
+        public PropertyTreeBinderOptions() : this(null) {
         }
 
         public PropertyTreeBinderOptions Clone() {
@@ -55,7 +51,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public static PropertyTreeBinderOptions ReadOnly(PropertyTreeBinderOptions source) {
-            var result =  source.Clone();
+            var result = source.Clone();
             result.IsReadOnly = true;
             return result;
         }

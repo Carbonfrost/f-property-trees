@@ -1,6 +1,4 @@
 //
-// - TypeHelperTests.cs -
-//
 // Copyright 2013 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,19 +26,19 @@ namespace Carbonfrost.UnitTests.PropertyTrees {
     public class TypeHelperTests {
 
         [Fact]
-        public void should_bind_generic_collection_ns() {
+        public void GetNamespaceName_should_bind_generic_collection_ns() {
             var ns = TypeHelper.GetNamespaceName(typeof(ICollection<PropertyTree>));
             Assert.Equal(Xmlns.PropertyTrees2010, ns);
         }
 
         [Fact]
-        public void should_bind_generic_dictionary_ns() {
+        public void GetNamespaceName_should_bind_generic_dictionary_ns() {
             var ns = TypeHelper.GetNamespaceName(typeof(IDictionary<string, PropertyTree>));
             Assert.Equal(Xmlns.PropertyTrees2010, ns);
         }
 
         [Fact]
-        public void should_bind_generic_dictionary_ns_recursive() {
+        public void GetNamespaceName_should_bind_generic_dictionary_ns_recursive() {
             var ns = TypeHelper.GetNamespaceName(typeof(ICollection<KeyValuePair<string, PropertyTree>>));
             Assert.Equal(Xmlns.PropertyTrees2010, ns);
         }

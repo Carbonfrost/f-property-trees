@@ -33,8 +33,9 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         public static MethodBase FindActivationConstructor(Type declaringType) {
             MethodBase ctor = declaringType.GetActivationConstructor();
-            if (ctor == null)
+            if (ctor == null) {
                 ctor = declaringType.GetConstructors().FirstOrDefault();
+            }
 
             return ctor;
         }

@@ -140,7 +140,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Schema {
             foreach (MethodInfo method in type.GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public)) {
                 bool match = false;
                 // TODO Check signature of these methods because they could be illegal
-                foreach (RoleAttribute attribute in FindRoleAttributes(method)) {
+                foreach (var attribute in FindRoleAttributes(method)) {
                     var result = attribute.BuildInstance(method);
                     if (result != null) {
                         this.operators.Add(result);
@@ -216,8 +216,8 @@ namespace Carbonfrost.Commons.PropertyTrees.Schema {
             return false;
         }
 
-        IEnumerable<RoleAttribute> FindRoleAttributes(MethodInfo method) {
-            var result = method.GetCustomAttributes(typeof(RoleAttribute)).Cast<RoleAttribute>();
+        IEnumerable<IRoleAttribute> FindRoleAttributes(MethodInfo method) {
+            var result = method.GetCustomAttributes().OfType<IRoleAttribute>();
 
             foreach (var data in method.CustomAttributes) {
                 if (data.AttributeType.GetTypeInfo().Assembly.Equals(typeof(ReflectedPropertyTreeDefinition).GetTypeInfo().Assembly)) {

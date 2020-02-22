@@ -27,7 +27,7 @@ using Carbonfrost.Commons.Core.Runtime;
 #pragma warning disable 3003
 #pragma warning disable 3008
 
-[assembly: Xmlns("https://ns.example.com", ClrNamespace = "Prototypes")]
+[assembly: Xmlns("https://ns.example.com/", Namespace = "Prototypes")]
 namespace Prototypes {
 
     public class Alpha {

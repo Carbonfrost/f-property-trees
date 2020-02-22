@@ -1,11 +1,11 @@
 //
-// Copyright 2014, 2016 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2014, 2016, 2020 Carbonfrost Systems, Inc. (https://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -61,7 +61,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
             return PropertyTreeMetaObject.Create(value, this.ComponentType);
         }
 
-        public override PropertyTreeMetaObject BindInitializer(Expression expression, ExpressionContext context, IServiceProvider serviceProvider) {
+        public override PropertyTreeMetaObject BindInitializer(Expression expression, IExpressionContext context, IServiceProvider serviceProvider) {
             // No need to evaluate if the parent can accept expressions
             // TODO There will be other conditions for allowing expressions
             if (CanAllowExpressionInitializer(Parent)) {

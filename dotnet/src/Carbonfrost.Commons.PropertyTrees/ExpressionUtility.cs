@@ -1,13 +1,11 @@
 //
-// - Utility.cs -
-//
-// Copyright 2010, 2015 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2015, 2020 Carbonfrost Systems, Inc. (https://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,10 +24,13 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
     static class ExpressionUtility {
 
-        // TODO Escape with $$
-
-        private static readonly Regex EXPR_FORMAT = new Regex(@"\$ (
-(\{ (?<Expression> [^\}]+) \}) | (?<Expression> [:a-z0-9_\.]+) )", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
+        private static readonly Regex EXPR_FORMAT = new Regex(
+@"
+(
+    (?<DD> \$\$|\$$|\$(?=\s))
+    | \$ \{ (?<Expression>  ([^\}])+      )  (?<ExpEnd> \} | $ )
+    | \$    (?<Expression>  [:a-z0-9_\.]+ )
+)", RegexOptions.IgnoreCase | RegexOptions.IgnorePatternWhitespace);
 
         public static bool TryParse(string text, out Expression result) {
             result = null;
@@ -37,9 +38,12 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 return false;
             }
 
-            var matches = MatchVariables(text);
+            var matches = EXPR_FORMAT.Matches(text);
 
             var exprs = EnumerateExpressions(matches, text).Where(t => t != null).ToList();
+            if (exprs.OfType<ErrorExp>().Any()) {
+                return false;
+            }
             if (exprs.Count == 1) {
                 result = exprs[0];
             } else {
@@ -56,16 +60,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
                 null));
         }
 
-        private static MatchCollection MatchVariables(string text) {
-            MatchCollection matches = EXPR_FORMAT.Matches(text);
-            return matches;
-        }
-
         private static Expression ParseExprHelper(string expText) {
-            if (expText.IndexOf("::", StringComparison.Ordinal) >= 0) {
-                throw new NotImplementedException();
-            }
-
             return Expression.Parse(expText);
         }
 
@@ -73,13 +68,51 @@ namespace Carbonfrost.Commons.PropertyTrees {
             int previousIndex = 0;
             foreach (Match match in matches) {
                 yield return Constant(text.Substring(previousIndex, match.Index - previousIndex));
-                string expText = match.Groups["Expression"].Value;
 
-                yield return ParseExprHelper(expText);
+                if (match.Groups["DD"].Success) {
+                    yield return Constant("$");
+
+                } else {
+                    string expText = match.Groups["Expression"].Value;
+                    if (expText.Length == 0 || string.IsNullOrWhiteSpace(expText)) {
+                        yield return new ErrorExp();
+                        yield break;
+                    }
+                    else if (match.Groups["ExpEnd"].Success && match.Groups["ExpEnd"].Value != "}") {
+                        yield return new ErrorExp();
+                        yield break;
+                    }
+                    else {
+                        Expression exp;
+                        bool success = Expression.TryParse(expText, out exp);
+                        if (!success) {
+                            yield return new ErrorExp();
+                            yield break;
+                        }
+
+                        yield return exp;
+                    }
+                }
+
                 previousIndex = match.Index + match.Length;
             }
-
             yield return Constant(text.Substring(previousIndex, text.Length - previousIndex));
+        }
+
+        class ErrorExp : Expression {
+            public override ExpressionType ExpressionType {
+                get {
+                    return (ExpressionType) 0;
+                }
+            }
+
+            protected override void AcceptVisitor(IExpressionVisitor visitor) {}
+            protected override TResult AcceptVisitor<TArgument, TResult>(IExpressionVisitor<TArgument, TResult> visitor, TArgument argument) {
+                return default;
+            }
+            protected override TResult AcceptVisitor<TResult>(IExpressionVisitor<TResult> visitor) {
+                return default;
+            }
         }
 
         static ConstantExpression Constant(string text) {

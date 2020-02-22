@@ -1,7 +1,5 @@
 //
-// - PropertyNodeSelectionTests.cs -
-//
-// Copyright 2013 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2014 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,18 +14,23 @@
 // limitations under the License.
 //
 
-using System;
 using Carbonfrost.Commons.PropertyTrees;
 using Carbonfrost.Commons.Spec;
 
 namespace Carbonfrost.UnitTests.PropertyTrees {
-    public class PropertyNodeSelectionTests : TestBase {
+
+    public class PropertyTreeExceptionTests {
 
         [Fact]
-        public void test_select_child_nominal() {
-            PropertyTree pt = LoadTree("alpha-list.xml");
-            // Assert.Equal(pt.FirstChild, pt.SelectChild("alpha1"));
+        public void Message_should_consolidate_competing_inner_line_infos() {
+            // No need to display two line infos in ToString() or Message
+            var inner = new PropertyTreeException("error", 10, 20);
+            var e = new PropertyTreeException("outer", inner, 2, 4);
+
+            Assert.Contains("line 10, pos 20", e.ToString());
+            Assert.DoesNotContain("line 2, pos 4", e.Message);
         }
 
     }
 }
+

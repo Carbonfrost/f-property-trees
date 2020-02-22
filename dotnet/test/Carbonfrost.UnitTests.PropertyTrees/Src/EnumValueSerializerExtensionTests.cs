@@ -1,5 +1,5 @@
 //
-// Copyright 2014 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2014, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,10 +14,7 @@
 // limitations under the License.
 //
 
-using System;
-using System.Linq;
 using System.Net.Sockets;
-using Carbonfrost.Commons.PropertyTrees.ValueSerializers;
 using Carbonfrost.Commons.PropertyTrees;
 using Carbonfrost.Commons.Spec;
 
@@ -28,13 +25,13 @@ namespace Carbonfrost.UnitTests.PropertyTrees {
         readonly IValueSerializer conv = EnumValueSerializerExtension.Instance;
 
         [Fact]
-        public void test_convert_builtins() {
+        public void ConvertFromString_will_convert_from_flags() {
             Assert.Equal(SocketFlags.Broadcast | SocketFlags.ControlDataTruncated | SocketFlags.Multicast,
                          conv.ConvertFromString("Broadcast,ControlDataTruncated,Multicast", typeof(SocketFlags), null));
         }
 
         [Fact]
-        public void test_convert_whitespace_delimited() {
+        public void ConvertFromString_convert_whitespace_delimited_flags() {
             Assert.Equal(SocketFlags.Broadcast | SocketFlags.ControlDataTruncated | SocketFlags.Multicast,
                          conv.ConvertFromString("Broadcast , \t \t \n ControlDataTruncated Multicast", typeof(SocketFlags), null));
         }

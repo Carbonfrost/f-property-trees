@@ -6,17 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="../../lib/Typedescriptor.Metadata.dll" />
-    <Reference Include="../../lib/Carbonfrost.Commons.SharedRuntime.dll" />
-    <Reference Include="../../lib/Carbonfrost.Commons.Spec.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\Carbonfrost.Commons.PropertyTrees\Carbonfrost.Commons.PropertyTrees.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Carbonfrost.Commons.Core" Version="0.2.1" />
-    <PackageReference Include="Carbonfrost.Commons.Core.Runtime.Expressions" Version="0.1.0" />
+    <PackageReference Include="Carbonfrost.Commons.Core" Version="0.3.0" />
+    <PackageReference Include="Carbonfrost.Commons.Core.Runtime.Expressions" Version="0.2.0" />
+    <PackageReference Include="Carbonfrost.Commons.Spec" Version="0.2.0" />
   </ItemGroup>
 </Project>

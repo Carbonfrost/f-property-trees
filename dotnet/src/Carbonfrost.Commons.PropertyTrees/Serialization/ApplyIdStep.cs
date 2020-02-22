@@ -24,7 +24,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyIdStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 Predicate<PropertyTreeNavigator> predicate = ImplicitDirective(target, "id");
 
                 var node = children.FindAndRemove(predicate).FirstOrDefault();
@@ -33,20 +33,20 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                 }
                 if (node != null) {
                     // TODO Handle when a name is duplicated or contains whitespace
-                    var ns = Parent.FindNameScope(target);
+                    var ns = parent.FindNameScope(target);
                     string id = Convert.ToString(node.Value);
 
                     if (string.IsNullOrEmpty(id)) {
-                        Parent._errors.IdCannotBeBlank(node.FileLocation);
+                        parent._errors.IdCannotBeBlank(node.FileLocation);
                     } else if (ns.FindName(id) == null) {
                         ns.RegisterName(id, target.Component);
                     } else {
-                        Parent._errors.IdAlreadyRegistered(id, node.FileLocation);
+                        parent._errors.IdAlreadyRegistered(id, node.FileLocation);
                     }
 
                     var nameProperty = target.SelectProperty(NamespaceUri.Default + "name");
                     if (nameProperty != null) {
-                        Parent.DoPropertyBind(target, node, nameProperty);
+                        parent.DoPropertyBind(target, node, nameProperty);
                     }
                 }
 

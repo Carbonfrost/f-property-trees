@@ -17,14 +17,15 @@
 using System;
 using System.Runtime.Serialization;
 using System.Xml;
-using Carbonfrost.Commons.Core.Runtime;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
     public class PropertyTreeException : Exception, IXmlLineInfo {
 
         public string SourceUri {
-            get { return this.FileLocation.FileName; }
+            get {
+                return FileLocation.FileName;
+            }
         }
 
         public PropertyTreeException() : this(null, -1, -1) {}
@@ -63,13 +64,12 @@ namespace Carbonfrost.Commons.PropertyTrees {
             info.AddValue("fileLocation", FileLocation);
         }
 
-        // `IXmlLineInfo' implementation
         public int LineNumber {
-            get { return this.FileLocation.LineNumber; }
+            get { return FileLocation.LineNumber; }
         }
 
         public int LinePosition {
-            get { return this.FileLocation.LinePosition; }
+            get { return FileLocation.LinePosition; }
         }
 
         internal FileLocation FileLocation {
@@ -78,7 +78,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         bool IXmlLineInfo.HasLineInfo() {
-            return this.LineNumber > 0 && this.LinePosition > 0;
+            return LineNumber > 0 && LinePosition > 0;
         }
     }
 

@@ -49,7 +49,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Schema {
                         foreach (MethodInfo mi in type.GetMethods()) {
                             if (mi.IsExtension()) {
 
-                                foreach (RoleAttribute ra in mi.GetCustomAttributes(typeof(RoleAttribute))) {
+                                foreach (var ra in mi.GetCustomAttributes().OfType<IRoleAttribute>()) {
                                     ra.ProcessExtensionMethod(mi);
                                 }
                             }

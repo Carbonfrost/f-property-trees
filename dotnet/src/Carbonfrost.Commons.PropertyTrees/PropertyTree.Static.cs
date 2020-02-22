@@ -28,20 +28,17 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
     public partial class PropertyTree {
 
-        public static PropertyTree FromValue(object value, PropertyTreeValueOptions options = PropertyTreeValueOptions.None) {
-            if (value == null)
-                throw new ArgumentNullException("value"); // $NON-NLS-1
-
-            if (options.HasFlag(PropertyTreeValueOptions.Live))
-                throw new NotImplementedException();
+        public static PropertyTree FromValue(object value) {
+            if (value == null) {
+                throw new ArgumentNullException(nameof(value));
+            }
 
             // TODO Rework this to use PropertyTreeObjectReader
             PropertyTree result = new PropertyTree(value.GetType().GetQualifiedName());
-            var navigator = result.CreateNavigator();
 
             foreach (var property in value.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance)) {
                 object val = property.GetValue(value);
-                navigator.AppendProperty(property.Name, val);
+                result.AppendProperty(property.Name, val);
             }
 
             return result;

@@ -136,7 +136,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
             return PropertyTreeMetaObject.Create(value);
         }
 
-        public virtual PropertyTreeMetaObject BindInitializer(Expression expression, ExpressionContext context, IServiceProvider serviceProvider) {
+        public virtual PropertyTreeMetaObject BindInitializer(Expression expression, IExpressionContext context, IServiceProvider serviceProvider) {
             return this;
         }
 

@@ -15,7 +15,6 @@
 //
 
 using System;
-using System.Linq;
 using Carbonfrost.Commons.Core.Runtime;
 
 namespace Carbonfrost.Commons.PropertyTrees {

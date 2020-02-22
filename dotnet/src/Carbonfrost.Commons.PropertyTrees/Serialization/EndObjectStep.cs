@@ -25,8 +25,8 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class EndObjectStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject EndStep(PropertyTreeMetaObject target) {
-                return target.BindEndObject(Parent);
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+                return target.BindEndObject(parent);
             }
         }
     }

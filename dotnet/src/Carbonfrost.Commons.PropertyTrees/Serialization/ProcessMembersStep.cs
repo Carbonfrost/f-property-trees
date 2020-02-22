@@ -37,10 +37,10 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                 this._items = items;
             }
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 target.ApplyUriContextToProperties(self.BaseUri);
 
-                children.FindAndRemove(t => Apply(target, t)).All();
+                children.FindAndRemove(t => Apply(parent, target, t)).All();
                 return target;
             }
 
@@ -52,8 +52,8 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
             }
 
             // TODO Implement property ordering based on [DependsOn]
-            private bool Apply(PropertyTreeMetaObject target, PropertyTreeNavigator node) {
-                return _items.Any(t => t.Apply(Parent, target, node));
+            private bool Apply(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator node) {
+                return _items.Any(t => t.Apply(parent, target, node));
             }
         }
     }

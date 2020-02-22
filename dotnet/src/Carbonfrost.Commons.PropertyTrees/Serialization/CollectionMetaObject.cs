@@ -1,13 +1,11 @@
 //
-// - CollectionMetaObject.cs -
-//
-// Copyright 2014 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2014, 2020 Carbonfrost Systems, Inc. (https://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
 //
-//     http://www.apache.org/licenses/LICENSE-2.0
+//     https://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,8 +17,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+
 using Carbonfrost.Commons.Core;
 using Carbonfrost.Commons.Core.Runtime.Expressions;
 using Carbonfrost.Commons.PropertyTrees.Schema;
@@ -61,7 +58,7 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
                 throw new NotImplementedException();
         }
 
-        public override PropertyTreeMetaObject BindInitializer(Expression expression, ExpressionContext context, IServiceProvider serviceProvider) {
+        public override PropertyTreeMetaObject BindInitializer(Expression expression, IExpressionContext context, IServiceProvider serviceProvider) {
             var values = expression.Evaluate(context);
             if (values == null) {
                 return this;

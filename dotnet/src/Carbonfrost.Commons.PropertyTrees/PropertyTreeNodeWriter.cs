@@ -174,7 +174,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
             if (this.currentParent == null)
                 throw PropertyTreesFailure.WouldCreateMalformedDocument();
 
-            this.currentParent.AppendChild(newParent);
+            this.currentParent.Append(newParent);
             this.currentParent = newParent;
         }
 

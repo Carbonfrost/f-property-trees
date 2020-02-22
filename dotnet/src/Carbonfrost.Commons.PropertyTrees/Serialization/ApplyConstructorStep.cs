@@ -28,13 +28,13 @@ namespace Carbonfrost.Commons.PropertyTrees.Serialization {
 
         class ApplyConstructorStep : PropertyTreeBinderStep {
 
-            public override PropertyTreeMetaObject StartStep(PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
+            public override PropertyTreeMetaObject Process(PropertyTreeBinderImpl parent, PropertyTreeMetaObject target, PropertyTreeNavigator self, NodeList children) {
                 QualifiedName name = self.QualifiedName;
                 var ctor = PropertyTreeDefinition.FromType(target.ComponentType).Constructor;
 
                 if (target.ShouldConstruct && ctor != null) {
                     OperatorDefinition op = ctor;
-                    var args = ExtractParameterDictionary(op, target, Parent.GetBasicServices(self), children);
+                    var args = parent.ExtractParameterDictionary(op, target, parent.GetBasicServices(self), children);
 
                     target = target.BindConstructor(ctor, args);
                 }

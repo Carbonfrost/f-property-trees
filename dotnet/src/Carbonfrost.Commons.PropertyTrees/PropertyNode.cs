@@ -1,5 +1,5 @@
 //
-// Copyright 2010 Carbonfrost Systems, Inc. (http://carbonfrost.com)
+// Copyright 2010, 2020 Carbonfrost Systems, Inc. (http://carbonfrost.com)
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,36 +21,52 @@ using System.Xml;
 using Carbonfrost.Commons.PropertyTrees.Schema;
 using Carbonfrost.Commons.Core;
 using Carbonfrost.Commons.Core.Runtime;
+using Carbonfrost.Commons.PropertyTrees.Serialization;
 
 namespace Carbonfrost.Commons.PropertyTrees {
 
     public abstract partial class PropertyNode
-        : INotifyPropertyChanged, IPropertyNode {
+        : INotifyPropertyChanged, IPropertyNode<PropertyNode, Property, PropertyTree> {
 
-        internal PropertyTree parent;
-        private IDictionary<string, string> prefixMap;
-        private bool isExpressNamespace;
+        internal PropertyTree _parent;
+        private IDictionary<string, string> _prefixMap;
+        private bool _isExpressNamespace;
 
         public abstract PropertyNodeCollection Children { get; }
 
         public PropertyNode this[int index] {
-            get { return Children[index]; }
+            get {
+                return Children[index];
+            }
         }
 
         public PropertyNode this[QualifiedName name] {
-            get { return Children[name]; }
+            get {
+                return Children[name];
+            }
         }
 
         public PropertyNode this[string name] {
-            get { return Children[name]; }
+            get {
+                return Children[name];
+            }
         }
 
         public PropertyNode this[string name, string ns] {
-            get { return Children[name, ns]; }
+            get {
+                return Children[name, ns];
+            }
         }
 
-        public PropertyNode PreviousSibling { get; internal set; }
-        public PropertyNode NextSibling { get; internal set; }
+        public PropertyNode PreviousSibling {
+            get;
+            internal set;
+        }
+
+        public PropertyNode NextSibling {
+            get;
+            internal set;
+        }
 
         public Uri BaseUri {
             get;
@@ -59,47 +75,66 @@ namespace Carbonfrost.Commons.PropertyTrees {
 
         public PropertyNode FirstSibling {
             get {
-                return (this.Parent == null) ? null : this.Parent.FirstChild;
+                return (Parent == null) ? null : Parent.FirstChild;
             }
         }
 
         public PropertyNode LastSibling {
             get {
-                return (this.Parent == null) ? null : this.Parent.LastChild;
+                return (Parent == null) ? null : Parent.LastChild;
             }
         }
 
-        public virtual PropertyNode LastChild { get { return null; } }
-        public virtual PropertyNode FirstChild { get { return null; } }
+        public virtual PropertyNode LastChild {
+            get {
+                return null;
+            }
+        }
+
+        public virtual PropertyNode FirstChild {
+            get {
+                return null;
+            }
+        }
 
         public QualifiedName QualifiedName {
             get {
-                if (string.IsNullOrEmpty(this.Name))
+                if (string.IsNullOrEmpty(Name)) {
                     return null;
+                }
 
-                return QualifiedName.Create(this.Namespace ?? string.Empty, this.Name);
+                return QualifiedName.Create(Namespace ?? string.Empty, Name);
             }
             internal set {
                 if (value == null) {
-                    this.Name = null;
-                    this.Namespace = null;
+                    Name = null;
+                    Namespace = null;
                 } else {
-                    this.Name = value.LocalName;
-                    this.Namespace = value.Namespace.NamespaceName;
+                    Name = value.LocalName;
+                    Namespace = value.Namespace.NamespaceName;
                 }
             }
         }
 
-        public int LineNumber { get; set; }
-        public int LinePosition { get; set; }
+        public int LineNumber {
+            get;
+            set;
+        }
+
+        public int LinePosition {
+            get;
+            set;
+        }
 
         bool IPropertyTreeNavigator.IsExpressNamespace {
-            get { return IsExpressNamespace; }
+            get {
+                return IsExpressNamespace;
+            }
         }
 
         internal virtual bool IsExpressNamespace {
             get {
-                return this.isExpressNamespace;
+                return _isExpressNamespace;
             }
         }
 
@@ -119,55 +154,50 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return new DocumentPTNavigator(this);
         }
 
-        public void RemoveSelf() {
-            if (Parent == null)
+        public PropertyNode RemoveSelf() {
+            RemoveSelfCore();
+            return this;
+        }
+
+        protected virtual void RemoveSelfCore() {
+            if (Parent == null) {
                 throw PropertyTreesFailure.CannotDeleteRoot();
+            }
 
             Parent.RemoveChild(this);
         }
 
         public PropertyTreeReader ReadNode() {
-            return ReadNode(false);
-        }
-
-        private PropertyTreeReader ReadNode(bool move) {
-            var result = new PropertyTreeNodeReader(this);
-            if (move)
-                result.Read();
-
-            return result;
-        }
-
-        public virtual void Rename(string newName) {
-            // TODO Name behavior -- arbitrary changes
-            // Enforce schema logic (trees can rename and aggregate)
-            throw new NotImplementedException();
+            return new PropertyTreeNodeReader(this);
         }
 
         public void ReplaceWith(PropertyNode node) {
-            if (node == null)
-                throw new ArgumentNullException("node");
+            if (node == null) {
+                throw new ArgumentNullException(nameof(node));
+            }
 
             if (Parent != null) {
-                int index = this.Position;
-                var parent = this.Parent;
+                int index = Position;
+                var parent = Parent;
                 Parent.RemoveChild(this);
                 parent.InsertChildAt(index, node);
             }
         }
 
         public void WriteTo(PropertyTreeWriter writer) {
-            if (writer == null)
-                throw new ArgumentNullException("writer");
+            if (writer == null) {
+                throw new ArgumentNullException(nameof(writer));
+            }
 
             writer.WriteNode(this);
         }
 
         public void WriteContentsTo(PropertyTreeWriter writer) {
-            if (writer == null)
-                throw new ArgumentNullException("writer");
+            if (writer == null) {
+                throw new ArgumentNullException(nameof(writer));
+            }
 
-            foreach (var s in this.Children)
+            foreach (var s in Children)
                 writer.WriteNode(s);
         }
 
@@ -183,14 +213,15 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public PropertyTree Parent {
-            get { return parent; }
+            get { return _parent; }
             set {
                 if (value == null) {
-                    if (this.Parent != null)
-                        this.Parent.RemoveChild(this);
+                    if (Parent != null) {
+                        Parent.RemoveChild(this);
+                    }
 
                 } else {
-                    value.AppendChild(this);
+                    value.Append(this);
                 }
             }
         }
@@ -208,18 +239,13 @@ namespace Carbonfrost.Commons.PropertyTrees {
             QualifiedName = name;
         }
 
-        public void AppendChild(PropertyNode propertyNode) {
+        public PropertyNode Append(PropertyNode propertyNode) {
             InsertChildAt(Children.Count, propertyNode);
+            return this;
         }
 
-        public void PrependChild(PropertyNode propertyNode) {
+        public void Prepend(PropertyNode propertyNode) {
             InsertChildAt(0, propertyNode);
-        }
-
-        public virtual PropertyTree AppendTree(string name) {
-            var result = new PropertyTree(name);
-            this.AppendChild(result);
-            return result;
         }
 
         public virtual void InsertChildAt(int index, PropertyNode node) {
@@ -234,8 +260,12 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return false;
         }
 
-        public virtual bool RemoveChildren() {
-            return false;
+        public PropertyNode RemoveChildren() {
+            RemoveChildrenCore();
+            return this;
+        }
+
+        protected virtual void RemoveChildrenCore() {
         }
 
         public virtual int IndexOfChild(PropertyNode propertyNode) {
@@ -254,7 +284,7 @@ namespace Carbonfrost.Commons.PropertyTrees {
         }
 
         public void AppendTo(PropertyTree other) {
-            other.AppendChild(this);
+            other.Append(this);
         }
 
         // `IPropertyTreeReader`
@@ -282,38 +312,12 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return CreateNavigator().Bind(instanceType, options);
         }
 
-        public object SelectAttribute(string attribute) {
-            if (attribute == null)
-                throw new ArgumentNullException("attribute"); // $NON-NLS-1
-            attribute = attribute.Trim();
-
-            if (attribute.Length == 0)
-                throw Failure.AllWhitespace("attribute"); // $NON-NLS-1
-
-            switch (attribute) {
-                case "position":
-                    return this.Position;
-                case "empty":
-                    return !HasChildren;
-                case "root":
-                    return IsRoot;
-                case "tree":
-                    return IsPropertyTree;
-                case "property":
-                    return IsProperty;
-                default:
-                    return SelectAttributeCore(attribute);
-            }
-        }
-
-        protected abstract object SelectAttributeCore(string attribute);
-
-        // INotifyPropertyChanged implementation
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
-            if (PropertyChanged != null)
+            if (PropertyChanged != null) {
                 PropertyChanged(this, e);
+            }
         }
 
         protected abstract PropertyNode CloneCore();
@@ -322,7 +326,9 @@ namespace Carbonfrost.Commons.PropertyTrees {
             return CloneCore();
         }
 
-        // IPropertyTreeNavigator implementation
+        // TODO Name behavior -- arbitrary changes
+        // Enforce schema logic (trees can rename and aggregate)
+
         public string Namespace { get; private set; }
         public string Name { get; private set; }
         public virtual int Depth { get { return 0; } }
@@ -331,67 +337,83 @@ namespace Carbonfrost.Commons.PropertyTrees {
         public int Position { get; internal set; }
 
         public virtual string Path { get { return string.Empty; } }
-        public bool IsPropertyTree { get { return this.NodeType == PropertyNodeType.PropertyTree; } }
-        public bool IsProperty { get { return this.NodeType == PropertyNodeType.Property; } }
-        public bool IsRoot { get { return this.Parent == null; } }
+        public bool IsPropertyTree { get { return NodeType == PropertyNodeType.PropertyTree; } }
+        public bool IsProperty { get { return NodeType == PropertyNodeType.Property; } }
+        public bool IsRoot { get { return Parent == null; } }
         public abstract PropertyNodeType NodeType { get; }
 
         public abstract object Value { get; set; }
 
         public Type ValueType {
-            get { return TypeHelper.TypeOf(this.Value); } }
-
-        public bool HasChildren {
             get {
-                return this.Children.Count > 0;
+                return TypeHelper.TypeOf(Value);
             }
         }
 
-        public PropertyTreeWriter AppendChild() {
-            if (this.IsPropertyTree)
+        public bool HasChildren {
+            get {
+                return Children.Count > 0;
+            }
+        }
+
+        public PropertyTreeWriter Append() {
+            if (IsPropertyTree) {
                 return new PropertyTreeNodeWriter((PropertyTree) this);
-            else
-                throw PropertyTreesFailure.CannotAppendChild();
+            }
+
+            throw PropertyTreesFailure.CannotAppendChild();
         }
 
-        public void AppendChild(PropertyTreeReader newChild) {
-            if (newChild == null)
-                throw new ArgumentNullException("newChild");
+        public PropertyNode Append(PropertyTreeReader newChild) {
+            if (newChild == null) {
+                throw new ArgumentNullException(nameof(newChild));
+            }
 
-            AppendChild().CopyFrom(newChild);
+            Append().CopyFrom(newChild);
+            return this;
         }
 
-        public void AppendChild(PropertyTreeNavigator newChild) {
+        public PropertyNode Append(PropertyTreeNavigator newChild) {
             throw new NotImplementedException();
         }
 
-        public void AppendPropertyTree(string localName, string ns) {
-            if (localName == null)
-                throw new ArgumentNullException("localName");
-            if (localName.Length == 0)
-                throw Failure.EmptyString("localName");
+        public PropertyTree AppendPropertyTree(string localName, string ns) {
+            if (localName == null) {
+                throw new ArgumentNullException(nameof(localName));
+            }
+            if (localName.Length == 0) {
+                throw Failure.EmptyString(nameof(localName));
+            }
 
-            AppendChild(new PropertyTree(localName, ns));
+            var result = new PropertyTree(localName, ns);
+            Append(result);
+            return result;
         }
 
-        public void AppendPropertyTree(string localName) {
-            AppendPropertyTree(localName, string.Empty);
+        public PropertyTree AppendPropertyTree(string localName) {
+            return AppendPropertyTree(localName, string.Empty);
         }
 
-        public void AppendProperty(string localName, string ns, object value) {
-            AppendChild(new Property(localName, ns) { Value = value });
+        public Property AppendProperty(string localName, string ns, object value) {
+            if (localName == null) {
+                throw new ArgumentNullException(nameof(localName));
+            }
+            if (localName.Length == 0) {
+                throw Failure.EmptyString(nameof(localName));
+            }
+            var result = new Property(localName, ns) {
+                Value = value
+            };
+            Append(result);
+            return result;
         }
 
-        public void AppendProperty(string localName, object value) {
-            AppendProperty(localName, string.Empty, value);
+        public Property AppendProperty(string localName, object value) {
+            return AppendProperty(localName, string.Empty, value);
         }
 
-        public void AppendProperty(string localName) {
-            AppendProperty(localName, null);
-        }
-
-        public void RemoveChildren(PropertyTreeNavigator lastSiblingToDelete) {
-            throw new NotImplementedException();
+        public Property AppendProperty(string localName) {
+            return AppendProperty(localName, null);
         }
 
         public PropertyTreeWriter InsertAfter() {
@@ -402,26 +424,25 @@ namespace Carbonfrost.Commons.PropertyTrees {
             throw new NotImplementedException();
         }
 
-        public void InsertBefore(PropertyTreeNavigator newSibling) {
-            throw new NotImplementedException();
-        }
-
         internal string LookupNamespace(string prefix) {
             string result;
-            if (prefixMap != null && prefixMap.TryGetValue(prefix, out result))
+            if (_prefixMap != null && _prefixMap.TryGetValue(prefix, out result)) {
                 return result;
-            else if (this.Parent != null)
-                return this.Parent.LookupNamespace(prefix);
-            else
-                return null;
+            }
+            if (Parent != null) {
+                return Parent.LookupNamespace(prefix);
+            }
+
+            return null;
         }
 
         public void CopyContentsTo(PropertyTree tree) {
-            if (tree == null)
-                throw new ArgumentNullException("tree");
+            if (tree == null) {
+                throw new ArgumentNullException(nameof(tree));
+            }
 
-            foreach (var child in this.Children) {
-                tree.AppendChild(child.Clone());
+            foreach (var child in Children) {
+                tree.Append(child.Clone());
             }
         }
 
@@ -439,8 +460,8 @@ namespace Carbonfrost.Commons.PropertyTrees {
             if (uriContext != null) {
                 BaseUri = uriContext.BaseUri;
             }
-            this.prefixMap = prefixMap;
-            this.isExpressNamespace = isExpressNamespace;
+            _prefixMap = prefixMap;
+            _isExpressNamespace = isExpressNamespace;
         }
     }
 }
